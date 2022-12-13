@@ -3,12 +3,12 @@ $(document).ready(function() {
   
   $("#id_new_status_btn").click(function () {
     $("#myForm").show();
-
+    $("#id_content").css('min-height', 'auto')
    
   });
   $("#new_status_close_btn").click(function () {
     $("#myForm").hide();
-
+    $("#id_content").css('min-height', '100vh')
    
   });
   $("#color11").click(function () {
