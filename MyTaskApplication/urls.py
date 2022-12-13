@@ -16,16 +16,17 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from taskapp import views
+from categoryapp import views as catview
+from taskstatusapp import views as statusview
 from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('todo/oldhome/', views.oldhome_view, name='todo-home-old'),
-    path('todo/listcategory/', views.list_category_view, name='todo-cat-list'),
-    path('todo/liststatus/', views.list_status_view, name='todo-status-list'),
+    path('todo/listcategory/', catview.list_category_view, name='todo-cat-list'),
+    path('todo/liststatus/', statusview.list_status_view, name='todo-status-list'),
     path('todo/1/details/', views.task_detail_view, name='todo-details'),
-    path('todo/category/add/', views.category_create_view, name='todo-add-new-cat'),
+    path('todo/category/add/', catview.category_create_view, name='todo-add-new-cat'),
     path('todo/new/', views.new_task_view, name='todo-create-new-task'),
     path('todo/home/', views.new_home_view, name='todo-home'),
 
