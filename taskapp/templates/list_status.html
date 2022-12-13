@@ -1,0 +1,44 @@
+{%extends "base.html"%}
+{%block body_block%}
+  <div class="container">
+    <div class="row content">
+      <div class="col-2"></div>
+      <div class="col-8">
+        <table class="table">
+          <tr>
+            <th>Name</th>
+            <th>StatusColor</th>
+          </tr>
+          <tr>
+            <td>New</td>
+            <td>Blue</td>
+          </tr>
+          <tr>
+            <td>Canceled</td>
+            <td>Red</td>
+          </tr>
+          <tr>
+            <td>Partially completed</td>
+            <td>Yellow</td>
+          </tr>
+          <tr>
+            <td>Completed</td>
+            <td>Green</td>
+          </tr>
+        </table>
+      </div>
+      <div class="col-2">
+        <div class="row">
+          <div class="col-1"></div>
+          <div class="col-10" style="margin-top: 80px;">
+              <a href="" class="btn btn-sm btn-primary"><i class="fa-solid fa-plus me-2"></i><span>NewStatus</span></a>
+          </div>
+          <div class="col-1"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="myForm">
+    {% include 'create_new_status.html' %}
+  </div>
+{%endblock%}

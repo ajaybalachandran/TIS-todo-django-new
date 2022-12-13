@@ -1,0 +1,66 @@
+{%extends 'base.html'%}
+{%block body_block%}
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-2"></div>
+      <div class="col-8">
+        <section class="py-5">
+          <div class="container mt-5 " style="min-height: 100vh;">
+              <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+
+                <div class="card mx-3 mt-2" style="width: 15rem;">
+                  <img src="https://thumbs.dreamstime.com/b/kids-education-child-boy-study-school-thinking-bubble-dreaming-over-black-chalkboard-75214276.jpg" class="card-img-top" alt="...">
+                  <div class="card-body">
+                    <h5 class="card-title">Study</h5>
+                  </div>
+                </div>
+
+                <div class="card mx-3 mt-2" style="width: 15rem;">
+                  <img src="https://media.istockphoto.com/id/1284066336/photo/modern-gadgets-in-interior-of-coworking-office-during-covid-19-epidemic.jpg?s=612x612&w=0&k=20&c=Rl3eAbIDD7aCe63ibkA7Ng_-VJV-Npuc9Ey_eIE24U8=" class="card-img-top" alt="...">
+                  <div class="card-body">
+                    <h5 class="card-title">Office</h5>
+                    
+                  </div>
+                </div>
+
+                <div class="card mx-3 mt-2" style="width: 15rem;">
+                  <img src="https://thumbs.dreamstime.com/b/time-to-travel-wooden-sign-beach-background-49509295.jpg" class="card-img-top" alt="...">
+                  <div class="card-body">
+                    <h5 class="card-title">Travelling</h5>
+
+                  </div>
+                </div>
+
+                <div class="card mx-3 mt-5" style="width: 15rem;">
+                  <img src="https://img.freepik.com/free-vector/people-enjoying-their-hobbies-their-places_52683-19472.jpg?w=2000" class="card-img-top" alt="...">
+                  <div class="card-body">
+                    <h5 class="card-title">Hobbies</h5>
+                    
+                  </div>
+                </div>
+
+                <div class="card mx-3 mt-5" style="width: 15rem;">
+                  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSICaLjOsBD2rZLJD_gfHZs68YZUV0XDic0L1M3wWByGA&s" class="card-img-top" alt="...">
+                  <div class="card-body">
+                    <h5 class="card-title">Entertainment</h5>
+                    
+                  </div>
+                </div>
+
+              </div>
+          </div>
+      </section>
+      </div>
+      <div class="col-2">
+        <div class="row" >
+          <div class="col-1"></div>
+          <div class="col-10 " style="margin-top: 80px;">
+              <a href="{%url 'todo-add-new-cat'%}" class="btn btn-sm btn-primary"><i class="fa-solid fa-plus me-2"></i><span>NewCategory</span></a>
+          </div>
+          <div class="col-1"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+{%endblock%}
