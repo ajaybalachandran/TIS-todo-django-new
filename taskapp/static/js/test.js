@@ -71,7 +71,13 @@ $(document).ready(function() {
 
 
   });
-  
+  // $("#note_create_btn").click(function () {
+  //   $("#popupForm").css('position', 'relative');
+
+  //   $("#popupForm").css('display', 'none');
+
+
+  // });
   
 });
 
@@ -99,4 +105,73 @@ function btnchange()
 
     } 
 }
+
+function btnchange2() 
+{
+    var elem = document.getElementById("myButton2");
+    var badge = document.getElementById("badge2");
+    if (elem.value=="New"){
+      elem.value = "Partially completed";
+      badge.style.background = "yellow";
+    } 
+    else if (elem.value=="Partially completed"){
+      elem.value = "Completed";
+      badge.style.background = "green";
+
+    } 
+    else if (elem.value=="Completed"){
+      elem.value = "Canceled";
+      badge.style.background = "red";
+
+    } 
+    else{
+      elem.value = "New";
+      badge.style.background = "#0d6efd";
+
+    } 
+}
+
+
+
+  function taskNotePopup() {
+    document.getElementById("popupForm").style.display = "block";
+    // document.getElementById("popupForm").style.position = "fixed";
+    // document.getElementById("popupForm").style.top = "200px";
+
+    // document.getElementById("popupForm").style.left = "100px";
+zzzz
+
+  }
+  function submitfunction() {
+    // document.getElementById("popupForm").style.position = "relative";
+    document.getElementById("popupForm").style.display = "none";
+    var value1 = document.getElementById('note').value
+    console.log(typeof(value1));
+    if (value1.length<30){
+      document.getElementById('task_note').innerText=value1
+    }
+    else{
+      var output = ""
+    for(let char of value1){
+      output += char
+      if (output.length==30){
+        const para = document.createElement("p");
+        para.innerText = output;
+        // document.body.appendChild(para);
+        document.getElementById('task_note').appendChild(para)
+        output = ''
+      }
+    }
+    }
+    
+    
+
+  }
+  function closeForm() {
+    // document.getElementById("popupForm").style.position = "relative";
+    document.getElementById("popupForm").style.display = "none";
+    
+  }
+
+
 
