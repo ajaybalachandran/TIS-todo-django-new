@@ -12,6 +12,8 @@
   
 // });
 
+
+// this is for home.html
 $(document).ready(function() {
   $("#test1").click(function () {
     if ($(this).is(":checked")) {

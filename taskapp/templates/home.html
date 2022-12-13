@@ -1,89 +1,274 @@
-{%extends 'base.html'%}
+{% extends 'base.html' %}
 {%block body_block%}
-    <div class="container">
-        <div class="row home_section" style="min-height: 100vh;">
-            <div class="col-2"></div>
-            <div class="col-8 helo" style="margin-top: 80px;">
-                <ol class="list-group mb-3" >
-                    <li class="list-group-item d-flex justify-content-between align-items-start">
-                      <div class="ms-2 me-auto">
-                        <div class="fw-bold">Study Django</div>
-                        <p style="font-size: x-small; margin:0;">26/07/2022</p>
-                      </div>
-                      <div class="me-5 d-flex align-items-center">
-                        <div class="mt-1">
-                            <a href="{%url 'todo-details'%}">
-                                <i class="fa-solid fa-arrow-up-right-from-square text-muted"></i>
-                            </a>
-                        </div>
-                      </div>
-                      <span class="badge bg-primary rounded-pill">&nbsp&nbsp&nbsp</span>
-                    </li>
-                </ol>
-
-                <ol class="list-group mb-3" >
-                    <li class="list-group-item d-flex justify-content-between align-items-start">
-                      <div class="ms-2 me-auto">
-                        <div class="fw-bold">Read book</div>
-                        <p style="font-size: x-small; margin:0;">26/07/2022</p>
-                      </div>
-                      <div class="me-5 d-flex align-items-center">
-                        <div class="mt-1">
-                            <a href="{%url 'todo-details'%}">
-                                <i class="fa-solid fa-arrow-up-right-from-square text-muted"></i>
-                            </a>
-                        </div>
-                      </div>
-                      <span class="badge bg-danger rounded-pill">&nbsp&nbsp&nbsp</span>
-                    </li>
-                </ol>
-
-                <ol class="list-group mb-3" >
-                    <li class="list-group-item d-flex justify-content-between align-items-start">
-                      <div class="ms-2 me-auto">
-                        <div class="fw-bold">Cycling</div>
-                        <p style="font-size: x-small; margin:0;">26/07/2022</p>
-                      </div>
-                      <div class="me-5 d-flex align-items-center">
-                        <div class="mt-1">
-                            <a href="{%url 'todo-details'%}">
-                                <i class="fa-solid fa-arrow-up-right-from-square text-muted"></i>
-                            </a>
-                        </div>
-                      </div>
-                      <span class="badge bg-warning rounded-pill">&nbsp&nbsp&nbsp</span>
-                    </li>
-                </ol>
-
-                <ol class="list-group mb-3" >
-                    <li class="list-group-item d-flex justify-content-between align-items-start">
-                      <div class="ms-2 me-auto">
-                        <div class="fw-bold">Outing</div>
-                        <p style="font-size: x-small; margin:0;">26/07/2022</p>
-                      </div>
-                      <div class="me-5 d-flex align-items-center">
-                        <div class="mt-1">
-                            <a href="{%url 'todo-details'%}">
-                                <i class="fa-solid fa-arrow-up-right-from-square text-muted"></i>
-                            </a>
-                        </div>
-                      </div>
-                      <span class="badge bg-success rounded-pill">&nbsp&nbsp&nbsp</span>
-                      <div>
-                      </div>
-                    </li>
-                </ol>
-
-            </div>
-            <div class="col-2" >
-                <div class="row" >
-                    <div class="col-2"></div>
-                    <div class="col-8" style="margin-top: 80px;">
-                        <a href="{%url 'todo-create-new-task'%}" class="btn btn-sm btn-primary"><i class="fa-solid fa-plus me-2"></i><span>New Task</span></a>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-1"></div>
+        <div class="col-10">
+          <div class="row">
+            <div class="col-6 left">
+                <div class="row" style="margin-top: 80px; min-height: 100vh;" id="top-left">
+                    <div class="col-12">
+    
+                        <ol class="list-group mb-3 v1" id="first_left">
+                            <li class="list-group-item d-flex justify-content-between align-items-start">
+                                <div class="mt-1">
+                                    <div>
+                                        <input type="checkbox" value="v1" id="test1">
+                                    </div>
+                                </div>
+                              <div class="ms-2 me-auto">
+    
+                                <div class="fw-bold">Study Django</div>
+                                <p style="font-size: x-small; margin:0;">26/07/2022</p>
+                              </div>
+                              <div class="me-5 d-flex align-items-center">
+                                <div class="mt-1">
+                                    <a href="{%url 'todo-details'%}">
+                                        <i class="fa-solid fa-arrow-up-right-from-square text-muted"></i>
+                                    </a>
+                                </div>
+                              </div>
+                            </li>
+                        </ol>
+    
+                        <ol class="list-group mb-3 v2" id="second_left">
+                            <li class="list-group-item d-flex justify-content-between align-items-start">
+                                <div class="mt-1">
+                                    <div>
+                                        <input type="checkbox" value="v2" id="test2">
+                                    </div>
+                                </div>
+                              <div class="ms-2 me-auto">
+                                <div class="fw-bold">Read book</div>
+                                <p style="font-size: x-small; margin:0;">26/07/2022</p>
+                              </div>
+                              <div class="me-5 d-flex align-items-center">
+                                <div class="mt-1">
+                                    <a href="{%url 'todo-details'%}">
+                                        <i class="fa-solid fa-arrow-up-right-from-square text-muted"></i>
+                                    </a>
+                                </div>
+                              </div>
+                            </li>
+                        </ol>
+    
+                        <ol class="list-group mb-3 v3" id="third_left">
+                            <li class="list-group-item d-flex justify-content-between align-items-start">
+                                <div class="mt-1">
+                                    <div>
+                                        <input type="checkbox" value="v3" id="test3">
+                                    </div>
+                                </div>
+                              <div class="ms-2 me-auto">
+                                <div class="fw-bold">Cycling</div>
+                                <p style="font-size: x-small; margin:0;">26/07/2022</p>
+                              </div>
+                              <div class="me-5 d-flex align-items-center">
+                                <div class="mt-1">
+                                    <a href="{%url 'todo-details'%}">
+                                        <i class="fa-solid fa-arrow-up-right-from-square text-muted"></i>
+                                    </a>
+                                </div>
+                              </div>
+                            </li>
+                        </ol>
+    
+                        <ol class="list-group mb-3 v4" id="fourth_left">
+                            <li class="list-group-item d-flex justify-content-between align-items-start">
+                                <div class="mt-1">
+                                    <div>
+                                        <input type="checkbox" value="v4" id="test4">
+                                    </div>
+                                </div>
+                              <div class="ms-2 me-auto">
+                                <div class="fw-bold">Outing</div>
+                                <p style="font-size: x-small; margin:0;">26/07/2022</p>
+                              </div>
+                              <div class="me-5 d-flex align-items-center">
+                                <div class="mt-1">
+                                    <a href="{%url 'todo-details'%}">
+                                        <i class="fa-solid fa-arrow-up-right-from-square text-muted"></i>
+                                    </a>
+                                </div>
+                              </div>
+                            </li>
+                        </ol>
                     </div>
-                    <div class="col-2"></div>
                 </div>
             </div>
+
+
+
+
+            <div class="col-6 right">
+                <div class="row" style="margin-top: 80px; min-height: 100vh;" id="top-right">
+                    <div class="col-12">
+
+                      
+
+                        
+                        <ol class="list-group mb-3 v1" id="first_right" style="display: none">
+                            <li class="list-group-item d-flex justify-content-between align-items-start">
+                              
+                              <div class="ms-2 me-auto d-flex">
+                                <div>
+                                  <div class="fw-bold">Study Django</div>
+                                  <p style="font-size: x-small; margin:0;">26/07/2022</p>
+                                </div>
+
+                                <div class="mt-1 ms-4">
+                                  <a href="{%url 'todo-details'%}">
+                                    <i class="fa-solid fa-arrow-up-right-from-square text-muted"></i>
+                                  </a>
+                                </div>
+                              </div>
+                              
+                              <div class="d-flex flex-column">
+                                <div style="align-self: flex-end;">
+                                  <span class="badge  rounded-pill" id="badge1" 
+                                    style="background-color: #0d6efd;">&nbsp&nbsp&nbsp
+                                  </span>
+
+                                </div>
+                                <div class="mt-2">
+                                  <input type="submit" value="New" id="myButton1" onclick="btnchange()" 
+                                  class="btn btn-primary"                         
+                                  style="font-size: xx-small;">
+                                </div>
+                              </div>
+                              
+                            </li>
+                        </ol>
+            
+                        <ol class="list-group mb-3 v2" id="second_right" style="display: none">
+                          <li class="list-group-item d-flex justify-content-between align-items-start">
+                              
+                            <div class="ms-2 me-auto d-flex">
+                              <div>
+                                <div class="fw-bold">Read book</div>
+                                <p style="font-size: x-small; margin:0;">26/07/2022</p>
+                              </div>
+
+                              <div class="mt-1 ms-4">
+                                <a href="{%url 'todo-details'%}">
+                                    <i class="fa-solid fa-arrow-up-right-from-square text-muted"></i>
+                                </a>
+                              </div>
+                            </div>
+                            
+                            <div class="d-flex flex-column">
+                              <div style="align-self: flex-end;">
+                                <span class="badge  rounded-pill" id="badge2" 
+                                  style="background-color: #0d6efd;">&nbsp&nbsp&nbsp
+                                </span>
+
+                              </div>
+                              <div class="mt-2">
+                                <input type="submit" value="New" id="myButton2" onclick="btnchange2()" 
+                                class="btn btn-primary"                         
+                                style="font-size: xx-small;">
+                              </div>
+                            </div>
+                            
+                          </li>
+                        </ol>
+            
+                        <ol class="list-group mb-3 v3" id="third_right" style="display: none">
+                          <li class="list-group-item d-flex justify-content-between align-items-start">
+                              
+                            <div class="ms-2 me-auto d-flex">
+                              <div>
+                                <div class="fw-bold">Cycling</div>
+                                <p style="font-size: x-small; margin:0;">26/07/2022</p>
+                              </div>
+
+                              <div class="mt-1 ms-4">
+                                <a href="{%url 'todo-details'%}">
+                                    <i class="fa-solid fa-arrow-up-right-from-square text-muted"></i>
+                                </a>
+                              </div>
+                            </div>
+                            
+                            <div class="d-flex flex-column">
+                              <div style="align-self: flex-end;">
+                                <span class="badge  rounded-pill" id="badge3" 
+                                  style="background-color: #0d6efd;">&nbsp&nbsp&nbsp
+                                </span>
+
+                              </div>
+                              <div class="mt-2">
+                                <input type="submit" value="New" id="myButton3" onclick="btnchange3()" 
+                                class="btn btn-primary"                         
+                                style="font-size: xx-small;">
+                              </div>
+                            </div>
+                            
+                          </li>
+                        </ol>
+            
+                        <ol class="list-group mb-3 v4" id="fourth_right" style="display: none">
+                          <li class="list-group-item d-flex justify-content-between align-items-start">
+                              
+                            <div class="ms-2 me-auto d-flex">
+                              <div>
+                                <div class="fw-bold">Outing</div>
+                                <p style="font-size: x-small; margin:0;">26/07/2022</p>
+                              </div>
+
+                              <div class="mt-1 ms-4">
+                                <a href="{%url 'todo-details'%}">
+                                    <i class="fa-solid fa-arrow-up-right-from-square text-muted"></i>
+                                </a>
+                              </div>
+                            </div>
+                            
+                            <div class="d-flex flex-column">
+                              <div style="align-self: flex-end;">
+                                <span class="badge  rounded-pill" id="badge4" 
+                                  style="background-color: #0d6efd;">&nbsp&nbsp&nbsp
+                                </span>
+
+                              </div>
+                              <div class="mt-2">
+                                <input type="submit" value="New" id="myButton4" onclick="btnchange4()" 
+                                class="btn btn-primary"                         
+                                style="font-size: xx-small;">
+                              </div>
+                            </div>
+                            
+                          </li>
+                        </ol>
+                    </div>
+                </div>
+                
+            </div>
         </div>
+        </div>
+        <div class="col-1">
+          <div class="row" style="margin-top: 80px;">
+            <div class="col-12">
+              <a class="btn btn-sm btn-primary" id="new_task_btn" style="font-size: x-small;">
+                <i class="fa-solid fa-plus me-1"></i><span>Task</span>
+              </a>
+
+              <!-- <a class="btn btn-sm btn-primary" id="new_notes_btn" style="font-size: x-small;">
+                <i class="fa-solid fa-note-sticky"></i>
+                <span>Notes</span>
+              </a> -->
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+        <div class="row">
+          <div class="col-1"></div>
+          <div class="col-10" id="new_task_data" style="display: none;">
+            {% include 'new_task_form.html' %}
+          </div>
+          <div class="col-1"></div>
+        </div>
+
     </div>
 {%endblock%}

@@ -21,13 +21,13 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('todo/home/', views.home_view, name='todo-home'),
+    path('todo/oldhome/', views.oldhome_view, name='todo-home-old'),
     path('todo/listcategory/', views.list_category_view, name='todo-cat-list'),
     path('todo/liststatus/', views.list_status_view, name='todo-status-list'),
     path('todo/1/details/', views.task_detail_view, name='todo-details'),
     path('todo/category/add/', views.category_create_view, name='todo-add-new-cat'),
     path('todo/new/', views.new_task_view, name='todo-create-new-task'),
-    path('todo/test/', views.test, name='todo-test'),
+    path('todo/home/', views.new_home_view, name='todo-home'),
 
 ]
 if settings.DEBUG:
