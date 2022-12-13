@@ -28,3 +28,11 @@
   height: 100px;
   background-color: aqua;
 }
+#color15 .btn{
+  color: #fff;
+  outline: 0 !important;
+  
+}
+.btn:focus{
+  outline: 0 !important;
+}
