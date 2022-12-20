@@ -9,37 +9,43 @@
         <i class="fa-solid fa-rectangle-xmark fa-2x" id="cancel_newtask"></i>
       </div>
     </div>
-    <div class="mb-3">
-      <input type="text" name="title" class="form-control" placeholder="Task Name">
-    </div>
-    <div class="mb-3">
-      <textarea name="desc" id="" cols="30" rows="10" class="form-control" placeholder="Description"></textarea>
-    </div>
-    <div class="mb-3">
-      <select name="" id="">
-        <option value="">Select Category</option>
-        <option value="">Study</option>
-        <option value="">Cycling</option>
-        <option value="">Entertinement</option>
-        <option value="">Hobby</option>
-      </select>
-    </div>
-    <div class="mb-3">
-      <input type="file">
-    </div>
-    <div class="mb-3">
-      <input type="date" placeholder="Time to do task" class="form-control">
-    </div>
-    <div style="display: flex; justify-content: space-between;">
-      <div>
-        <input type="submit" value="Create" class="btn btn-primary">
+    <form action="" method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      <div class="mb-3">
+        <input type="text" name="title" class="form-control" placeholder="Task Name" required>
       </div>
-      <!-- <div>
-        <a class="btn btn-primary" id="cancel_newtask">
-          Cancel
-        </a>
-      </div> -->
-    </div>
+      <div class="mb-3">
+        <textarea name="desc" id="" cols="30" rows="10" class="form-control" placeholder="Description" required></textarea>
+      </div>
+      <div class="mb-3">
+        <select name="cat" id="" required>
+          <option selected disabled hidden value= 'none'>Select Category</option>
+          <option value="Study">Study</option>
+          <option value="Office">Office</option>
+          <option value="Travelling">Travelling</option>
+          <option value="Hobbies">Hobbies</option>
+          <option value="Entertainment">Entertainment</option>
+        </select>
+      </div>
+      <div class="mb-3">
+        <input type="file" name="task_img" required>
+      </div>
+      <div class="mb-3">
+        <input name="avail_time" type="date" placeholder="Time to do task" class="form-control" required>
+      </div>
+      <div style="display: flex; justify-content: space-between;">
+        <div>
+          <input type="submit" value="Create" class="btn btn-primary">
+        </div>
+        <!-- <div>
+          <a class="btn btn-primary" id="cancel_newtask">
+            Cancel
+          </a>
+        </div> -->
+      </div>
+    </form>
+
+
   </div>
   <div class="col-2"></div>
 </div>

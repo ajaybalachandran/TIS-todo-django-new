@@ -4,31 +4,9 @@
     <div class="row" style="min-height: 100vh;">
       <div class="col-2"></div>
       <div class="col-8" style="margin-top: 80px;">
-        <h4 class="mb-3">Create New Task</h4>
-        <div class="mb-3">
-          <input type="text" name="title" class="form-control" placeholder="Task Name">
-        </div>
-        <div class="mb-3">
-          <textarea name="desc" id="" cols="30" rows="10" class="form-control" placeholder="Description"></textarea>
-        </div>
-        <div class="mb-3">
-          <select name="" id="">
-            <option value="">Select Category</option>
-            <option value="">Study</option>
-            <option value="">Cycling</option>
-            <option value="">Entertinement</option>
-            <option value="">Hobby</option>
-          </select>
-        </div>
-        <div class="mb-3">
-          <input type="file">
-        </div>
-        <div class="mb-3">
-          <input type="date" placeholder="Time to do task" class="form-control">
-        </div>
-        <div>
-          <input type="submit" value="Create" class="btn btn-primary">
-        </div>
+        {% include 'new_task_form.html' %}
+
+
       </div>
       <div class="col-2"></div>
     </div>
