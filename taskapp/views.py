@@ -23,7 +23,11 @@ class CreateNewTaskView(View):
         cats = request.POST.get('cat')
         task_category = Category.objects.get(cat_name=cats)
         task_image = request.FILES['task_img']
-
+        task_status = TaskStatus.objects.get(stat_color='no_color')
         needed_time = request.POST.get('avail_time')
+        Tasks.objects.create(task_name=task_name, description=description,
+                             task_category=task_category, task_image=task_image,
+                             task_status=task_status,
+                             needed_time=needed_time)
         return redirect('todo-create-new-task')
 
