@@ -10,6 +10,8 @@ class Tasks(models.Model):
     task_image = models.ImageField(upload_to='task_images')
     task_status = models.ForeignKey(TaskStatus, on_delete=models.CASCADE)
     needed_time = models.DateField()
+    added_date = models.DateField(null=True, blank=True, auto_now_add=True)
+    is_active = models.BooleanField(default=False)
 
     def __str__(self):
         return self.task_name

@@ -34,13 +34,18 @@ class CreateNewTaskView(View):
 
 class NewHomeView(CreateNewTaskView):
     def get(self, request, *args, **kwargs):
-        pending_id = TaskStatus.objects.get(stat_name='pending')
-        tasks = Tasks.objects.filter(task_status=pending_id)
-        if tasks:
-            return render(request, 'home.html', {'pending_tasks': tasks})
+        # pending_id = TaskStatus.objects.get(stat_name='pending')
+        new_tasks = Tasks.objects.filter(is_active=False)
+        new_todos = Tasks.objects.filter(is_active=True)
+        if new_tasks or new_todos:
+            return render(request, 'home.html', {'pending_tasks': new_tasks, 'todos': new_todos})
         else:
             return render(request, 'home.html')
 
+def task_to_todo_view(request, *args, **kwargs):
+    id = kwargs.get('id')
+    print(id)
+    return redirect('todo-home')
 
 
 
