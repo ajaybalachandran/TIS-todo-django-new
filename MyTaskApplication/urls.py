@@ -28,7 +28,7 @@ urlpatterns = [
     path('todo/1/details/', views.task_detail_view, name='todo-details'),
     path('todo/category/add/', catview.category_create_view, name='todo-add-new-cat'),
     path('todo/new/', views.CreateNewTaskView.as_view(), name='todo-create-new-task'),
-    path('todo/home/', views.new_home_view, name='todo-home'),
+    path('todo/home/', views.NewHomeView.as_view(), name='todo-home'),
 
 ]
 if settings.DEBUG:

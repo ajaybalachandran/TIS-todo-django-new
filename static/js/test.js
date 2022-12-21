@@ -139,7 +139,6 @@ function btnchange2()
     // document.getElementById("popupForm").style.top = "200px";
 
     // document.getElementById("popupForm").style.left = "100px";
-zzzz
 
   }
   function submitfunction() {

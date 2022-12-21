@@ -10,8 +10,8 @@ def task_detail_view(request):
 
 # def new_task_view(request):
 #     return render(request, 'newtask.html')
-def new_home_view(request):
-    return render(request, 'home.html')
+# def new_home_view(request):
+#     return render(request, 'home.html')
 
 class CreateNewTaskView(View):
     def get(self, request, *args, **kwargs):
@@ -29,5 +29,32 @@ class CreateNewTaskView(View):
                              task_category=task_category, task_image=task_image,
                              task_status=task_status,
                              needed_time=needed_time)
-        return redirect('todo-create-new-task')
+        return redirect('todo-home')
+
+
+class NewHomeView(CreateNewTaskView):
+    def get(self, request, *args, **kwargs):
+        pending_id = TaskStatus.objects.get(stat_name='pending')
+        tasks = Tasks.objects.filter(task_status=pending_id)
+        if tasks:
+            return render(request, 'home.html', {'pending_tasks': tasks})
+        else:
+            return render(request, 'home.html')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
