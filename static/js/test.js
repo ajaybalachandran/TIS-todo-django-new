@@ -15,6 +15,33 @@
 
 // this is for home.html
 $(document).ready(function() {
+
+  //form submission without page refresh
+  $(document).on('submit', '#create_new_task_form', function(e){
+    e.preventDefault();
+    $.ajax({
+      type:'POST',
+      url: "/todo/home/",
+      data:{
+        task_name : $('#task_name').val(),
+        description : $('#task_desc').val(),
+        cats : $('#task_cat').val(),
+        task_image : $('#task_image').val(),
+        needed_time : $('#task_avail_time').val(),
+        csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+      },
+      success: function(){
+
+      }
+    
+
+    });
+    $("#create_new_task_form")[0].reset();
+  });
+  
+
+
+
   $("#test1").click(function () {
     if ($(this).is(":checked")) {
         $("#first_right").show();
@@ -79,6 +106,7 @@ $(document).ready(function() {
 
   // });
   
+
 });
 
 function btnchange() 
