@@ -16,28 +16,75 @@
 // this is for home.html
 $(document).ready(function() {
 
-  //form submission without page refresh
+  //form submission without page refresh (file upload working perfectly)
+
   $(document).on('submit', '#create_new_task_form', function(e){
     e.preventDefault();
-    $.ajax({
-      type:'POST',
-      url: "/todo/home/",
-      data:{
-        task_name : $('#task_name').val(),
-        description : $('#task_desc').val(),
-        cats : $('#task_cat').val(),
-        task_image : $('#task_image').val(),
-        needed_time : $('#task_avail_time').val(),
-        csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
-      },
-      success: function(){
 
+    console.log('form submitted');
+    
+    var task_name = $("#task_name").val();
+    var description = $("#task_desc").val();
+    var cats = $("#task_cat").val();
+
+    // var task_image = $("#task_image").val();
+
+    var needed_time = $("#task_avail_time").val();
+    var token =  $('input[name=csrfmiddlewaretoken]').val();
+    
+    var data = new FormData();
+    data.append("file", $("input[id^='task_image']")[0].files[0])
+    data.append("csrfmiddlewaretoken", token)
+    data.append("task_name", task_name)
+    data.append("description", description)
+    data.append("cats", cats)
+    data.append("needed_time", needed_time)
+    console.log(task_name, description, cats, needed_time, token);
+
+    $.ajax({
+      url: "/todo/home/",
+      method: "POST",
+      processData: false,
+      contentType: false,
+      mimeType: "multipart/form-data",
+      data: data,
+      success: function(data){
+        console.log('Data send to the backend');
+        $("#create_new_task_form")[0].reset();
+        $("#new_task_data").css('display', 'none');
+        $("#top-left").css('min-height', '100vh');
+        $("#top-right").css('min-height', '100vh');
       }
+    });
+
+
+
+  });
+
+  //form submission without page refresh (file upload not working)
+
+  // $(document).on('submit', '#create_new_task_form', function(e){
+  //   console.log('sub');
+  //   e.preventDefault();
+  //   $.ajax({
+  //     type:'POST',
+  //     url: "/todo/home/",
+  //     data:{
+  //       task_name : $('#task_name').val(),
+  //       description : $('#task_desc').val(),
+  //       cats : $('#task_cat').val(),
+  //       task_image : $('#task_image').val(),
+  //       needed_time : $('#task_avail_time').val(),
+  //       csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+  //     },
+  //     success: function(){
+
+  //     }
     
 
-    });
-    $("#create_new_task_form")[0].reset();
-  });
+  //   });
+  //   $("#create_new_task_form")[0].reset();
+  // });
   
 
 
