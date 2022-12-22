@@ -1,21 +1,7 @@
-// function ajay(){
-//   document.getElementById('data').innerHTML='<input type="text" placeholder="Middle Name" id="id_mname">';
-// }
+// this js file is for home.html
 
-
-
-// $(document).ready(function() {
-//   $('input[type="checkbox"]').click(function() {
-//       var inputValue = $(this).attr("value");
-//       $("." + inputValue).hide();
-//   });
-  
-// });
-
-
-// this is for home.html
 $(document).ready(function() {
-
+  
   //form submission without page refresh (file upload working perfectly)
 
   $(document).on('submit', '#create_new_task_form', function(e){
@@ -54,12 +40,66 @@ $(document).ready(function() {
         $("#new_task_data").css('display', 'none');
         $("#top-left").css('min-height', '100vh');
         $("#top-right").css('min-height', '100vh');
+        $.ajax({
+          type: 'GET',
+          url: '/todo/home/test/',
+          success: function(response){
+            console.log(response);
+            $("#display-data").empty();
+
+            
+    
+            for(var key in response.pending_tasks){
+              arr_len = response.pending_tasks.length
+              if(key==arr_len-1){
+                console.log(response.pending_tasks.length);
+                var section = '<ol class="list-group mb-3 v1" id='+response.pending_tasks[key].id+'>'+
+                '<li class="list-group-item d-flex justify-content-between align-items-start">'+
+                '<div class="mt-1">'+
+                '<div>'+
+                '<a href="{%url \'task-to-todo\' task.id%}">'+
+                '<input type="checkbox" value="v1" id="ididid">'+
+                '</a>'+
+                '</div>'+
+                '</div>'+
+                '<div class="ms-2 me-auto">'+
+                '<div class="fw-bold" id="b_task_name">'+response.pending_tasks[key].task_name+
+                '</div>'+
+                '<p style="font-size: x-small; margin:0;">'+response.pending_tasks[key].added_date+
+                '</p>'+
+                '</div>'+
+                '<div class="me-5 d-flex align-items-center">'+
+                '<div class="mt-1">'+
+                '<a href="{%url \'todo-details\'%}">'+
+                '<i class="fa-solid fa-arrow-up-right-from-square text-muted"></i>'+
+                '</a>'+
+                '</div>'+
+                '</div>'+
+                '</li>'+
+                '</ol>'
+                $("#display-data").append(section);
+            
+              }
+
+              
+              
+    
+    
+            }
+          },
+          error: function(response){
+            console.log('Error');
+          },
+          
+        });
       }
     });
 
-
+    
 
   });
+
+
 
   //form submission without page refresh (file upload not working)
 
@@ -247,5 +287,29 @@ function btnchange2()
     
   }
 
-
+  // var section = '<ol class="list-group mb-3 v1" id="{{task.id}}">'+
+  // '<li class="list-group-item d-flex justify-content-between align-items-start">'+
+  // '<div class="mt-1">'+
+  // '<div>'+
+  // '<a href="{%url \'task-to-todo\' task.id%}">'+
+  // '<input type="checkbox" value="v1" id="ididid">'+
+  // '</a>'+
+  // '</div>'+
+  // '</div>'+
+  // '<div class="ms-2 me-auto">'+
+  // '<div class="fw-bold" id="b_task_name">'+response.pending_tasks[key].task_name+
+  // '</div>'+
+  // '<p style="font-size: x-small; margin:0;">'+response.pending_tasks[key].added_date+
+  // '</p>'+
+  // '</div>'+
+  // '<div class="me-5 d-flex align-items-center">'+
+  // '<div class="mt-1">'+
+  // '<a href="{%url \'todo-details\'%}">'+
+  // '<i class="fa-solid fa-arrow-up-right-from-square text-muted"></i>'+
+  // '</a>'+
+  // '</div>'+
+  // '</div>'+
+  // '</li>'+
+  // '</ol>'
+  // $("#display-data").append(section);
 

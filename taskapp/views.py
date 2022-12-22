@@ -70,6 +70,14 @@ class NewHomeView(CreateNewTaskView):
         else:
             return render(request, 'home.html')
 
+
+def test(request, *args, **kwargs):
+    new_tasks = Tasks.objects.filter(is_active=False)
+    new_todos = Tasks.objects.filter(is_active=True)
+    if new_tasks or new_todos:
+        return JsonResponse({'pending_tasks': list(new_tasks.values()), 'todos': list(new_todos.values())})
+
+
 def task_to_todo_view(request, *args, **kwargs):
     id = kwargs.get('id')
     print(id)
