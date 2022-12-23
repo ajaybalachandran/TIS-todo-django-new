@@ -46,7 +46,7 @@ $(document).ready(function() {
           url: '/todo/home/test/',
           success: function(response){
             console.log(response);
-            $("#display-data").empty();
+            // $("#display-data").empty();
 
             
     
@@ -132,6 +132,7 @@ $(document).ready(function() {
                 arr_len = response.todos.length
                 if(key==arr_len-1){
                   console.log(response.todos.length);
+                  console.log(response);
                   var todo_section = '<ol class="list-group mb-3 v1" id='+response.todos[key].id+'>'+
                   '<li class="list-group-item d-flex justify-content-between align-items-start">'+
                   '<div class="ms-2 me-auto d-flex">'+
@@ -219,49 +220,7 @@ $(document).ready(function() {
     
   });
 
-  $("#test1").click(function () {
-    if ($(this).is(":checked")) {
-        $("#first_right").show();
-        $("#first_left").hide();
-
-    } else {
-        $("#first_right").hide();
-        $("#first_left").show();
-
-    }
-  });
-
-  $("#test2").click(function () {
-    if ($(this).is(":checked")) {
-        $("#second_right").show();
-        $("#second_left").hide();
-    } else {
-        $("#second_right").show();
-        $("#second_left").hide();
-    }
-  });
-
-  $("#test3").click(function () {
-    if ($(this).is(":checked")) {
-      $("#third_right").show();
-      $("#third_left").hide();
-
-    } else {
-        $("#third_right").show();
-        $("#third_left").hide();
-    }
-  });
-
-  $("#test4").click(function () {
-    if ($(this).is(":checked")) {
-        $("#fourth_right").show();
-        $("#fourth_left").hide();
-    } else {
-        $("#fourth_right").show();
-        $("#fourth_left").hide();
-    }
-  });
-
+  
   $("#new_task_btn").click(function () {
     $("#new_task_data").css('display', 'block');
     $("#top-left").css('min-height', 'auto');
@@ -282,7 +241,29 @@ $(document).ready(function() {
 
 
   // });
-  
+
+
+  //btn change fot todos
+  $(".stat_btns").click(function(){
+    id=parseInt($(this).attr("id"));
+    value = $(this).attr("value");
+    if(value=="New"){
+      $(this).attr("value","Partially completed");
+      $("#"+id+"badge").css('background', 'yellow');
+    }
+    else if(value=="Partially completed"){
+      $(this).attr("value","Completed");
+      $("#"+id+"badge").css('background', 'green');
+    }
+    else if(value=="Completed"){
+      $(this).attr("value","Canceled");
+      $("#"+id+"badge").css('background', 'red');
+    }
+    else{
+      $(this).attr("value","New");
+      $("#"+id+"badge").css('background', '#0d6efd');
+    }
+  });
 
 });
 //jquery ends
@@ -290,8 +271,10 @@ $(document).ready(function() {
 
 //functions
 
+
 function btnchange() 
 {
+    
     var elem = document.getElementById("myButton1");
     var badge = document.getElementById("badge1");
     if (elem.value=="New"){
@@ -315,30 +298,6 @@ function btnchange()
     } 
 }
 
-function btnchange2() 
-{
-    var elem = document.getElementById("myButton2");
-    var badge = document.getElementById("badge2");
-    if (elem.value=="New"){
-      elem.value = "Partially completed";
-      badge.style.background = "yellow";
-    } 
-    else if (elem.value=="Partially completed"){
-      elem.value = "Completed";
-      badge.style.background = "green";
-
-    } 
-    else if (elem.value=="Completed"){
-      elem.value = "Canceled";
-      badge.style.background = "red";
-
-    } 
-    else{
-      elem.value = "New";
-      badge.style.background = "#0d6efd";
-
-    } 
-}
 
 
 

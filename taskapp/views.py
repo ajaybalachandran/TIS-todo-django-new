@@ -65,9 +65,9 @@ class CreateNewTaskView(View):
 class NewHomeView(CreateNewTaskView):
     def get(self, request, *args, **kwargs):
         # pending_id = TaskStatus.objects.get(stat_name='pending')
-        new_tasks = Tasks.objects.filter(is_active=False)
-        new_todos = Tasks.objects.filter(is_active=True)
-        print(new_todos)
+        new_tasks = Tasks.objects.filter(is_active=False).order_by('id').values()
+        # new_todos = Tasks.objects.filter(is_active=True)
+        new_todos = Todos.objects.all()
         if new_tasks or new_todos:
             return render(request, 'home.html', {'pending_tasks': new_tasks, 'todos': new_todos})
             # return JsonResponse({'pending_tasks': list(new_tasks.values()), 'todos': list(new_todos.values())})
@@ -93,6 +93,8 @@ def task_to_todo_view(request, *args, **kwargs):
     # Todos.todo_task.add(task)
     print(type(task))
     return redirect('todo-home')
+
+
 
 
 
