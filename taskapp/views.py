@@ -31,9 +31,9 @@ class CreateNewTaskView(View):
         cats = request.POST.get('cats')
         task_category = Category.objects.get(cat_name=cats)
         task_image = request.FILES.get('file')
-        task_status = TaskStatus.objects.get(stat_color='no_color')
+        # task_status = TaskStatus.objects.get(stat_color='no_color')
         needed_time = request.POST.get('needed_time')
-        print(task_name, description, task_category, task_image, task_status, needed_time)
+        print(task_name, description, task_category, task_image,  needed_time)
         # fss = FileSystemStorage()
         # filename = fss.save(task_image.name, task_image)
         # url = fss.url(filename)
@@ -41,7 +41,6 @@ class CreateNewTaskView(View):
 
         Tasks.objects.create(task_name=task_name, description=description,
                              task_category=task_category, task_image=task_image,
-                             task_status=task_status,
                              needed_time=needed_time)
 
 
@@ -87,9 +86,11 @@ def task_to_todo_view(request, *args, **kwargs):
     todo_id = kwargs.get('id')
     print(todo_id)
     task = Tasks.objects.get(id=todo_id)
-    Todos.objects.create(todo_task=task)
+    new_stat = TaskStatus.objects.get(stat_name='new')
+    Todos.objects.create(todo_task=task, todo_status=new_stat)
     task.is_active = True
     task.save()
+
     # Todos.todo_task.add(task)
     print(type(task))
     return redirect('todo-home')
