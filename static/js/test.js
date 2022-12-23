@@ -118,6 +118,98 @@ $(document).ready(function() {
         success: function(data){
           console.log("Data send to backend");
           $("#"+todo_id).hide();
+
+          $.ajax({
+            type:'GET',
+            url:'/todo/home/test/',
+            success: function(response){
+              console.log(response);
+              // $("#display-todo-data").empty();
+  
+              
+      
+              for(var key in response.todos){
+                arr_len = response.todos.length
+                if(key==arr_len-1){
+                  console.log(response.todos.length);
+                  var todo_section = '<ol class="list-group mb-3 v1" id='+response.todos[key].id+'>'+
+                  '<li class="list-group-item d-flex justify-content-between align-items-start">'+
+                  '<div class="ms-2 me-auto d-flex">'+
+                  '<div>'+
+                  '<div class="fw-bold">'+response.todos[key].task_name+
+                  '</div>'+
+                  '<p style="font-size: x-small; margin:0;">'+response.todos[key].added_date+
+                  '</p>'+
+                  '<div  style="max-width: 100px; display:flex; ">'+
+                  '<div>'+
+                  '<p id="task_note" style="text-overflow: ellipsis;"></p>'+
+                  '</div>'+
+                  '</div>'+
+                  '</div>'+
+                  '<div class="mt-1 ms-4">'+
+                  '<a href="{%url \'todo-details\'%}">'+
+                  '<i class="fa-solid fa-arrow-up-right-from-square text-muted"></i>'+
+                  '</a>'+
+                  '</div>'+
+                  '</div>'+
+                  '<div class="d-flex flex-column">'+
+                  '<div style="align-self: flex-end;">'+
+                  '<span class="badge  rounded-pill" id="badge1" style="background-color: #0d6efd;">&nbsp&nbsp&nbsp'+
+                  '</span>'+
+                  '</div>'+
+                  '<div class="mt-2 d-flex">'+
+                  '<div class="me-2">'+
+                  '<input type="submit" value="Note" id="noteBtn1" onclick="taskNotePopup()"'+
+                  'class="btn btn-success"'+
+                  'style="font-size: xx-small;">'+
+                  '</div>'+
+                  '<div>'+
+                  '<input type="submit" value="New" id="myButton1" onclick="btnchange()" '+
+                  'class="btn btn-primary" '+
+                  'style="font-size: xx-small;">'+
+                  '</div>'+
+                  '</div>'+
+                  '</div>'+
+                  '</li>'+
+                  '</ol>'
+                  $("#display-todo-data").append(todo_section);
+
+
+                  // var section = '<ol class="list-group mb-3 v1" id='+response.pending_tasks[key].id+'>'+
+                  // '<li class="list-group-item d-flex justify-content-between align-items-start">'+
+                  // '<div class="mt-1">'+
+                  // '<div>'+
+                  // '<a href="{%url \'task-to-todo\' task.id%}">'+
+                  // '<input type="checkbox" value="v1" id="ididid">'+
+                  // '</a>'+
+                  // '</div>'+
+                  // '</div>'+
+                  // '<div class="ms-2 me-auto">'+
+                  // '<div class="fw-bold" id="b_task_name">'+response.pending_tasks[key].task_name+
+                  // '</div>'+
+                  // '<p style="font-size: x-small; margin:0;">'+response.pending_tasks[key].added_date+
+                  // '</p>'+
+                  // '</div>'+
+                  // '<div class="me-5 d-flex align-items-center">'+
+                  // '<div class="mt-1">'+
+                  // '<a href="{%url \'todo-details\'%}">'+
+                  // '<i class="fa-solid fa-arrow-up-right-from-square text-muted"></i>'+
+                  // '</a>'+
+                  // '</div>'+
+                  // '</div>'+
+                  // '</li>'+
+                  // '</ol>'
+                  // $("#display-data").append(section);
+              
+                }
+  
+                
+                
+      
+      
+              }
+            },
+          });
         }
 
 

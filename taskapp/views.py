@@ -67,6 +67,7 @@ class NewHomeView(CreateNewTaskView):
         # pending_id = TaskStatus.objects.get(stat_name='pending')
         new_tasks = Tasks.objects.filter(is_active=False)
         new_todos = Tasks.objects.filter(is_active=True)
+        print(new_todos)
         if new_tasks or new_todos:
             return render(request, 'home.html', {'pending_tasks': new_tasks, 'todos': new_todos})
             # return JsonResponse({'pending_tasks': list(new_tasks.values()), 'todos': list(new_todos.values())})
