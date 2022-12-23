@@ -19,5 +19,4 @@ class Tasks(models.Model):
 class Todos(models.Model):
     todo_task = models.ForeignKey(Tasks, on_delete=models.CASCADE, related_name='new_todo')
 
-    def __str__(self):
-        return self.todo_task
+

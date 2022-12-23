@@ -1,3 +1,5 @@
+import json
+
 from django.shortcuts import render, redirect
 from django.views.generic import View
 from taskapp.models import Tasks
@@ -5,6 +7,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.core.files.storage import FileSystemStorage
 from categoryapp.models import Category
 from taskstatusapp.models import TaskStatus
+from taskapp.models import Todos
 from django.http import JsonResponse
 # Create your views here.
 
@@ -78,9 +81,16 @@ def test(request, *args, **kwargs):
         return JsonResponse({'pending_tasks': list(new_tasks.values()), 'todos': list(new_todos.values())})
 
 
+@csrf_exempt
 def task_to_todo_view(request, *args, **kwargs):
-    id = kwargs.get('id')
-    print(id)
+    todo_id = kwargs.get('id')
+    print(todo_id)
+    task = Tasks.objects.get(id=todo_id)
+    Todos.objects.create(todo_task=task)
+    task.is_active = True
+    task.save()
+    # Todos.todo_task.add(task)
+    print(type(task))
     return redirect('todo-home')
 
 

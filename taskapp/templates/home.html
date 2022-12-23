@@ -24,12 +24,13 @@
                           <ol class="list-group mb-3 v1" id="{{task.id}}">
                             <li class="list-group-item d-flex justify-content-between align-items-start">
                                 <div class="mt-1">
+                                  
                                     <div>
-                                      <a href="{%url 'task-to-todo' task.id%}">
-                                        <input type="checkbox" value="v1" id="ididid">
-                                      </a>
+                                        <input class="checkboxes btn btn-submit" type="checkbox" value="{{task.id}}" id="check{{task.id}}">
                                     </div>
-                                </div>
+                                  
+                                    
+                                </div>  
                               <div class="ms-2 me-auto">
     
                                 <div class="fw-bold" id="{{task.id}}b_task_name">{{task.task_name}}</div>

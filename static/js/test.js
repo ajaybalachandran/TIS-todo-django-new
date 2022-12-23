@@ -27,6 +27,7 @@ $(document).ready(function() {
     data.append("needed_time", needed_time)
     console.log(task_name, description, cats, needed_time, token);
 
+
     $.ajax({
       url: "/todo/home/",
       method: "POST",
@@ -95,39 +96,36 @@ $(document).ready(function() {
       }
     });
 
-    
-
   });
+  $(".checkboxes").click(function () {
+    if ($(this).is(":checked")) {
+      check_id=$(this).attr("id");
+      todo_id=parseInt($(this).attr("value"))
+      console.log(typeof(check_id));
+      console.log(todo_id);
+      var token =  $('input[name=csrfmiddlewaretoken]').val();
+
+      var data = {"check_box_id": check_id, "todo_id": todo_id}
+      
+      
+      console.log(data);
+      $.ajax({
+        type:'POST',
+        url:'/task/'+todo_id+'/new_todo/',
+        processData: false,
+        contentType: false,
+        data: data,
+        success: function(data){
+          console.log("Data send to backend");
+          $("#"+todo_id).hide();
+        }
 
 
+      });
 
-  //form submission without page refresh (file upload not working)
-
-  // $(document).on('submit', '#create_new_task_form', function(e){
-  //   console.log('sub');
-  //   e.preventDefault();
-  //   $.ajax({
-  //     type:'POST',
-  //     url: "/todo/home/",
-  //     data:{
-  //       task_name : $('#task_name').val(),
-  //       description : $('#task_desc').val(),
-  //       cats : $('#task_cat').val(),
-  //       task_image : $('#task_image').val(),
-  //       needed_time : $('#task_avail_time').val(),
-  //       csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
-  //     },
-  //     success: function(){
-
-  //     }
+    } 
     
-
-  //   });
-  //   $("#create_new_task_form")[0].reset();
-  // });
-  
-
-
+  });
 
   $("#test1").click(function () {
     if ($(this).is(":checked")) {
@@ -195,6 +193,10 @@ $(document).ready(function() {
   
 
 });
+//jquery ends
+
+
+//functions
 
 function btnchange() 
 {
@@ -312,4 +314,33 @@ function btnchange2()
   // '</li>'+
   // '</ol>'
   // $("#display-data").append(section);
+
+
+  //form submission without page refresh (file upload not working)
+
+  // $(document).on('submit', '#create_new_task_form', function(e){
+  //   console.log('sub');
+  //   e.preventDefault();
+  //   $.ajax({
+  //     type:'POST',
+  //     url: "/todo/home/",
+  //     data:{
+  //       task_name : $('#task_name').val(),
+  //       description : $('#task_desc').val(),
+  //       cats : $('#task_cat').val(),
+  //       task_image : $('#task_image').val(),
+  //       needed_time : $('#task_avail_time').val(),
+  //       csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+  //     },
+  //     success: function(){
+
+  //     }
+    
+
+  //   });
+  //   $("#create_new_task_form")[0].reset();
+  // });
+  
+
+
 
