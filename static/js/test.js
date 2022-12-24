@@ -81,22 +81,17 @@ $(document).ready(function() {
                 $("#display-data").append(section);
             
               }
-
-              
-              
-    
-    
             }
           },
           error: function(response){
             console.log('Error');
           },
-          
         });
       }
     });
-
   });
+
+  
   $(".checkboxes").click(function () {
     if ($(this).is(":checked")) {
       check_id=$(this).attr("id");
@@ -125,9 +120,6 @@ $(document).ready(function() {
             success: function(response){
               console.log(response);
               // $("#display-todo-data").empty();
-  
-              
-      
               for(var key in response.todos){
                 arr_len = response.todos.length
                 if(key==arr_len-1){
@@ -174,40 +166,7 @@ $(document).ready(function() {
                   '</li>'+
                   '</ol>'
                   $("#display-todo-data").append(todo_section);
-
-
-                  // var section = '<ol class="list-group mb-3 v1" id='+response.pending_tasks[key].id+'>'+
-                  // '<li class="list-group-item d-flex justify-content-between align-items-start">'+
-                  // '<div class="mt-1">'+
-                  // '<div>'+
-                  // '<a href="{%url \'task-to-todo\' task.id%}">'+
-                  // '<input type="checkbox" value="v1" id="ididid">'+
-                  // '</a>'+
-                  // '</div>'+
-                  // '</div>'+
-                  // '<div class="ms-2 me-auto">'+
-                  // '<div class="fw-bold" id="b_task_name">'+response.pending_tasks[key].task_name+
-                  // '</div>'+
-                  // '<p style="font-size: x-small; margin:0;">'+response.pending_tasks[key].added_date+
-                  // '</p>'+
-                  // '</div>'+
-                  // '<div class="me-5 d-flex align-items-center">'+
-                  // '<div class="mt-1">'+
-                  // '<a href="{%url \'todo-details\'%}">'+
-                  // '<i class="fa-solid fa-arrow-up-right-from-square text-muted"></i>'+
-                  // '</a>'+
-                  // '</div>'+
-                  // '</div>'+
-                  // '</li>'+
-                  // '</ol>'
-                  // $("#display-data").append(section);
-              
                 }
-  
-                
-                
-      
-      
               }
             },
           });
@@ -244,7 +203,8 @@ $(document).ready(function() {
 
 
   //btn change for todos
-  $(".stat_btns").click(function(){
+  $(document).on('click', '.stat_btns', function(e){
+    e.preventDefault();
     id=parseInt($(this).attr("id"));
     value = $(this).attr("value");
     data = {'id':id, 'value':value}
@@ -256,34 +216,28 @@ $(document).ready(function() {
         data: data,
         success: function(data){
           console.log('data send to backend!!!!');
-          $("#"+id+"btn_live").empty();
+          // $("#"+id+"btn_live").empty();
+
           $.ajax({
             type:'GET',
-            url:'/todo/home/test/',
+            url:'/todo/'+id+'/',
             success: function(response){
-              console.log('hi')
+              console.log(id);
               console.log(response);
+              console.log(response.new_status)
+              var todo_stat_btn = '<div id='+id+'btn_live>'+
+              '<input type="submit" value="'+response.new_status+'"id="'+id+'"class="btn btn-primary stat_btns"'+
+              'style="font-size: xx-small;">'+
+              '</div>'
+              $("#"+id+"btn_live_change").empty();
+              $("#"+id+"btn_live_change").append(todo_stat_btn);
+              $("#"+id+"badge").css('background', response.new_status_color);
             }
           });
         }
     });
-    // if(value=="New"){
-    //   $(this).attr("value","Partially completed");
-    //   $("#"+id+"badge").css('background', 'yellow');
-    // }
-    // else if(value=="Partially completed"){
-    //   $(this).attr("value","Completed");
-    //   $("#"+id+"badge").css('background', 'green');
-    // }
-    // else if(value=="Completed"){
-    //   $(this).attr("value","Canceled");
-    //   $("#"+id+"badge").css('background', 'red');
-    // }
-    // else{
-    //   $(this).attr("value","New");
-    //   $("#"+id+"badge").css('background', '#0d6efd');
-    // }
   });
+  
 
 });
 //jquery ends

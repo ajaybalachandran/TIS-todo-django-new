@@ -181,11 +181,10 @@
                               </div>
                               
                               <div class="d-flex flex-column">
-                                <div style="align-self: flex-end;">
-                                  <span class="badge  rounded-pill" id="{{todo.todo_task.id}}badge" 
-                                    style="background-color: #0d6efd;">&nbsp&nbsp&nbsp
+                                <div style="align-self: flex-end;" id="{{todo.id}}badge_live">
+                                  <span class="badge  rounded-pill" id="{{todo.id}}badge" 
+                                    style="background-color:{{todo.todo_status.stat_color}};">&nbsp&nbsp&nbsp
                                   </span>
-
                                 </div>
                                 <div class="mt-2 d-flex">
                                   <div class="me-2">
@@ -193,11 +192,17 @@
                                       class="btn btn-success"                         
                                       style="font-size: xx-small;">
                                   </div>
-                                  <div id="{{todo.id}}btn_live">
-                                    <input type="submit" value="{{todo.todo_status}}" id="{{todo.id}}"  
-                                      class="btn btn-primary stat_btns"                         
-                                      style="font-size: xx-small;">
+                                  <div id="{{todo.id}}btn_live_change">
+                                    <div id="{{todo.id}}btn_live">
+                                      <input type="submit" value="{{todo.todo_status}}" id="{{todo.id}}"  
+                                        class="btn btn-primary stat_btns"                         
+                                        style="font-size: xx-small;">
+                                    </div>
                                   </div>
+
+                                  <!-- <div id="{{todo.id}}btn_live_change">
+
+                                  </div> -->
                                   
                                 </div>
                               </div>

@@ -3,7 +3,7 @@ from django.db import models
 # Create your models here.
 class TaskStatus(models.Model):
     stat_name = models.CharField(max_length=120)
-    color_choices = (('no_color', 'no_color'),
+    color_choices = (('lawngreen', 'lawngreen'),
                      ('blue', 'blue'),
                      ('yellow', 'yellow'),
                      ('green', 'green'),
