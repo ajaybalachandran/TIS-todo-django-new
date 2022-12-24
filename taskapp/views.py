@@ -66,7 +66,11 @@ class NewHomeView(CreateNewTaskView):
         # pending_id = TaskStatus.objects.get(stat_name='pending')
         new_tasks = Tasks.objects.filter(is_active=False).order_by('id').values()
         # new_todos = Tasks.objects.filter(is_active=True)
-        new_todos = Todos.objects.all()
+        new_todos = Todos.objects.all().order_by('id')
+        print(new_todos)
+        new_todos2 = Todos.objects.all().order_by('id')
+        print(new_todos2)
+
         if new_tasks or new_todos:
             return render(request, 'home.html', {'pending_tasks': new_tasks, 'todos': new_todos})
             # return JsonResponse({'pending_tasks': list(new_tasks.values()), 'todos': list(new_todos.values())})
@@ -81,12 +85,13 @@ def test(request, *args, **kwargs):
         return JsonResponse({'pending_tasks': list(new_tasks.values()), 'todos': list(new_todos.values())})
 
 
+# while checking the checkbox the task in the task section it will jump to right section
 @csrf_exempt
 def task_to_todo_view(request, *args, **kwargs):
     todo_id = kwargs.get('id')
     print(todo_id)
     task = Tasks.objects.get(id=todo_id)
-    new_stat = TaskStatus.objects.get(stat_name='new')
+    new_stat = TaskStatus.objects.get(stat_name='New')
     Todos.objects.create(todo_task=task, todo_status=new_stat)
     task.is_active = True
     task.save()
@@ -94,6 +99,40 @@ def task_to_todo_view(request, *args, **kwargs):
     # Todos.todo_task.add(task)
     print(type(task))
     return redirect('todo-home')
+
+@csrf_exempt
+def change_todo_status_view(request, *args, **kwargs):
+    todo_id = kwargs.get('id')
+    instance = Todos.objects.get(id=todo_id)
+
+    stat_names = []
+    qs = TaskStatus.objects.all().order_by('id').values()
+    for stat in qs:
+        stat_names.append(stat.get('stat_name'))
+
+    for i in stat_names:
+        if i == instance.todo_status.stat_name:
+            if stat_names.index(i) < len(stat_names)-1:
+                next_status = TaskStatus.objects.get(stat_name=stat_names[stat_names.index(i)+1])
+                instance.todo_status = next_status
+                instance.save()
+                break
+            else:
+                next_status = TaskStatus.objects.get(stat_name=stat_names[0])
+                instance.todo_status = next_status
+                instance.save()
+                break
+    return redirect('todo-home')
+
+
+# get
+def todo_live_data_view(request, *args, **kwargs):
+    stat_names = []
+    qs = TaskStatus.objects.all().order_by('id').values()
+    for stat in qs:
+        stat_names.append(stat.get('stat_name'))
+    print(stat_names)
+    return JsonResponse({'stat_names': stat_names})
 
 
 

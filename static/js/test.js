@@ -243,26 +243,46 @@ $(document).ready(function() {
   // });
 
 
-  //btn change fot todos
+  //btn change for todos
   $(".stat_btns").click(function(){
     id=parseInt($(this).attr("id"));
     value = $(this).attr("value");
-    if(value=="New"){
-      $(this).attr("value","Partially completed");
-      $("#"+id+"badge").css('background', 'yellow');
-    }
-    else if(value=="Partially completed"){
-      $(this).attr("value","Completed");
-      $("#"+id+"badge").css('background', 'green');
-    }
-    else if(value=="Completed"){
-      $(this).attr("value","Canceled");
-      $("#"+id+"badge").css('background', 'red');
-    }
-    else{
-      $(this).attr("value","New");
-      $("#"+id+"badge").css('background', '#0d6efd');
-    }
+    data = {'id':id, 'value':value}
+    $.ajax({
+      type:'POST',
+        url:'/todo/'+id+'/',
+        processData: false,
+        contentType: false,
+        data: data,
+        success: function(data){
+          console.log('data send to backend!!!!');
+          $("#"+id+"btn_live").empty();
+          $.ajax({
+            type:'GET',
+            url:'/todo/home/test/',
+            success: function(response){
+              console.log('hi')
+              console.log(response);
+            }
+          });
+        }
+    });
+    // if(value=="New"){
+    //   $(this).attr("value","Partially completed");
+    //   $("#"+id+"badge").css('background', 'yellow');
+    // }
+    // else if(value=="Partially completed"){
+    //   $(this).attr("value","Completed");
+    //   $("#"+id+"badge").css('background', 'green');
+    // }
+    // else if(value=="Completed"){
+    //   $(this).attr("value","Canceled");
+    //   $("#"+id+"badge").css('background', 'red');
+    // }
+    // else{
+    //   $(this).attr("value","New");
+    //   $("#"+id+"badge").css('background', '#0d6efd');
+    // }
   });
 
 });
@@ -272,31 +292,31 @@ $(document).ready(function() {
 //functions
 
 
-function btnchange() 
-{
+// function btnchange() 
+// {
     
-    var elem = document.getElementById("myButton1");
-    var badge = document.getElementById("badge1");
-    if (elem.value=="New"){
-      elem.value = "Partially completed";
-      badge.style.background = "yellow";
-    } 
-    else if (elem.value=="Partially completed"){
-      elem.value = "Completed";
-      badge.style.background = "green";
+//     var elem = document.getElementById("myButton1");
+//     var badge = document.getElementById("badge1");
+//     if (elem.value=="New"){
+//       elem.value = "Partially completed";
+//       badge.style.background = "yellow";
+//     } 
+//     else if (elem.value=="Partially completed"){
+//       elem.value = "Completed";
+//       badge.style.background = "green";
 
-    } 
-    else if (elem.value=="Completed"){
-      elem.value = "Canceled";
-      badge.style.background = "red";
+//     } 
+//     else if (elem.value=="Completed"){
+//       elem.value = "Canceled";
+//       badge.style.background = "red";
 
-    } 
-    else{
-      elem.value = "New";
-      badge.style.background = "#0d6efd";
+//     } 
+//     else{
+//       elem.value = "New";
+//       badge.style.background = "#0d6efd";
 
-    } 
-}
+//     } 
+// }
 
 
 
@@ -392,6 +412,27 @@ function btnchange()
   //   $("#create_new_task_form")[0].reset();
   // });
   
+
+  // $.ajax({
+  //   type: "GET",
+  //   url: "/todo/livedata/",
+  //   success: function(response){
+  //     console.log(response);
+  //     const stat_names_arr = []
+  //     for(var key in response.stat_names){
+  //       stat_names_arr.push(response.stat_names[key])
+  //     }
+  //     len = stat_names_arr.length
+  //     for(let i=0; i<len;i++){
+  //       if(i == len-1){
+  //         if(value==stat_names_arr[i]){
+  //           $(this).attr("value",stat_names_arr[i+1]);
+  //           // $("#"+id+"badge").css('background', 'yellow');
+  //         }
+  //       }
+  //     }
+  //   }
+  // });
 
 
 

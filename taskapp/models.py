@@ -21,7 +21,7 @@ class Todos(models.Model):
     todo_task = models.ForeignKey(Tasks, on_delete=models.CASCADE, related_name='new_todo')
     todo_status = models.ForeignKey(TaskStatus, on_delete=models.CASCADE,
                                     null=True, blank=True, related_name='todo_stat_info')
-    todo_note = models.CharField(max_length=10000, null=True)
+    todo_note = models.CharField(max_length=10000, null=True, blank= True)
 
 
 

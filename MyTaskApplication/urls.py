@@ -32,6 +32,8 @@ urlpatterns = [
     path('todo/home/test/', views.test, name='todo-test'),
 
     path('task/<int:id>/new_todo/', views.task_to_todo_view, name='task-to-todo'),
+    path('todo/<int:id>/', views.change_todo_status_view, name='todo-change-status'),
+    path('todo/livedata/', views.todo_live_data_view, name='todo-cards-live-data'),
 
 ]
 if settings.DEBUG:
