@@ -25,7 +25,7 @@ $(document).ready(function() {
     data.append("description", description)
     data.append("cats", cats)
     data.append("needed_time", needed_time)
-    console.log(task_name, description, cats, needed_time, token);
+    // console.log(task_name, description, cats, needed_time, token);
 
 
     $.ajax({
@@ -36,7 +36,7 @@ $(document).ready(function() {
       mimeType: "multipart/form-data",
       data: data,
       success: function(data){
-        console.log('Data send to the backend');
+        console.log('Data send to the backend from form');
         $("#create_new_task_form")[0].reset();
         $("#new_task_data").css('display', 'none');
         $("#top-left").css('min-height', '100vh');
@@ -45,7 +45,7 @@ $(document).ready(function() {
           type: 'GET',
           url: '/todo/home/test/',
           success: function(response){
-            console.log(response);
+            // console.log(response);
             // $("#display-data").empty();
 
             
@@ -53,14 +53,13 @@ $(document).ready(function() {
             for(var key in response.pending_tasks){
               arr_len = response.pending_tasks.length
               if(key==arr_len-1){
-                console.log(response.pending_tasks.length);
-                var section = '<ol class="list-group mb-3 v1" id='+response.pending_tasks[key].id+'>'+
+                // console.log(response.pending_tasks.length);
+                var section = '<ol class="list-group mb-3 v1" id="'+response.pending_tasks[key].id+'">'+
                 '<li class="list-group-item d-flex justify-content-between align-items-start">'+
                 '<div class="mt-1">'+
                 '<div>'+
-                '<a href="{%url \'task-to-todo\' task.id%}">'+
-                '<input type="checkbox" value="v1" id="ididid">'+
-                '</a>'+
+                '<input class="checkboxes" type="checkbox" value="'+response.pending_tasks[key].id+
+                '" id="check'+response.pending_tasks[key].id+'">'+
                 '</div>'+
                 '</div>'+
                 '<div class="ms-2 me-auto">'+
@@ -91,8 +90,8 @@ $(document).ready(function() {
     });
   });
 
-  
-  $(".checkboxes").click(function () {
+  $(document).on('click', '.checkboxes', function(e){
+    e.preventDefault();
     if ($(this).is(":checked")) {
       check_id=$(this).attr("id");
       todo_id=parseInt($(this).attr("value"))
@@ -110,22 +109,26 @@ $(document).ready(function() {
         processData: false,
         contentType: false,
         data: data,
-        success: function(data){
-          console.log("Data send to backend");
+        success: function(response){
+          console.log("**********Data send to backend");
+          var new_id = response['new_id'];
+          var new_color = response['new_color'];
+          var new_status = response['new_status']
           $("#"+todo_id).hide();
 
           $.ajax({
             type:'GET',
-            url:'/todo/home/test/',
+            url:'/task/'+todo_id+'/new_todo/',
             success: function(response){
-              console.log(response);
+              // console.log(response);
               // $("#display-todo-data").empty();
               for(var key in response.todos){
                 arr_len = response.todos.length
                 if(key==arr_len-1){
-                  console.log(response.todos.length);
-                  console.log(response);
-                  var todo_section = '<ol class="list-group mb-3 v1" id='+response.todos[key].id+'>'+
+                  // console.log(response.todos.length);
+                  // console.log('++++++++++++++')
+                  // console.log(response);
+                  var todo_section = '<ol class="list-group mb-3 v1" id="'+response.todos[key].id+'right">'+
                   '<li class="list-group-item d-flex justify-content-between align-items-start">'+
                   '<div class="ms-2 me-auto d-flex">'+
                   '<div>'+
@@ -145,9 +148,11 @@ $(document).ready(function() {
                   '</a>'+
                   '</div>'+
                   '</div>'+
+
                   '<div class="d-flex flex-column">'+
-                  '<div style="align-self: flex-end;">'+
-                  '<span class="badge  rounded-pill" id="badge1" style="background-color: #0d6efd;">&nbsp&nbsp&nbsp'+
+                  //here
+                  '<div style="align-self: flex-end;" id="'+new_id+'badge_live">'+
+                  '<span class="badge  rounded-pill" id="'+new_id+'badge" style="background-color:'+new_color+';">&nbsp&nbsp&nbsp'+
                   '</span>'+
                   '</div>'+
                   '<div class="mt-2 d-flex">'+
@@ -156,15 +161,19 @@ $(document).ready(function() {
                   'class="btn btn-success"'+
                   'style="font-size: xx-small;">'+
                   '</div>'+
-                  '<div>'+
-                  '<input type="submit" value="New" id="myButton1" onclick="btnchange()" '+
-                  'class="btn btn-primary" '+
+
+                  '<div id="'+new_id+'btn_live_change">'+
+                  '<div id="'+new_id+'btn_live">'+
+                  '<input type="submit" value="'+new_status+'" id="'+new_id+'" '+
+                  'class="btn btn-primary stat_btns" '+
                   'style="font-size: xx-small;">'+
+                  '</div>'+
                   '</div>'+
                   '</div>'+
                   '</div>'+
                   '</li>'+
                   '</ol>'
+                  // $("#"+new_id+"btn_live").show();
                   $("#display-todo-data").append(todo_section);
                 }
               }
@@ -175,9 +184,10 @@ $(document).ready(function() {
 
       });
 
-    } 
-    
+    }
   });
+  
+  
 
   
   $("#new_task_btn").click(function () {
