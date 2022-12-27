@@ -25,7 +25,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('todo/listcategory/', catview.list_category_view, name='todo-cat-list'),
     path('todo/liststatus/', statusview.list_status_view, name='todo-status-list'),
-    path('todo/1/details/', views.task_detail_view, name='todo-details'),
+    path('todo/<int:id>/details/', views.TaskDetailsView.as_view(), name='todo-details'),
     path('todo/category/add/', catview.category_create_view, name='todo-add-new-cat'),
     path('todo/new/', views.CreateNewTaskView.as_view(), name='todo-create-new-task'),
     path('todo/home/', views.NewHomeView.as_view(), name='todo-home'),
@@ -33,6 +33,7 @@ urlpatterns = [
 
     path('task/<int:id>/new_todo/', views.TaskToTodoView.as_view(), name='task-to-todo'),
     path('todo/<int:id>/', views.ChangeTodoStatusView.as_view(), name='todo-change-status'),
+    path('todo/<int:id>/add_note/', views.AddTaskNoteView.as_view(), name='todo-add-task-note'),
 
 ]
 if settings.DEBUG:

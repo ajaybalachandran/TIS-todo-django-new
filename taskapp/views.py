@@ -12,10 +12,6 @@ from django.http import JsonResponse
 # Create your views here.
 
 
-def task_detail_view(request):
-    return render(request, 'taskdetails.html')
-
-
 class CreateNewTaskView(View):
     def get(self, request, *args, **kwargs):
         return render(request, 'newtask.html')
@@ -60,7 +56,7 @@ class NewHomeView(CreateNewTaskView):
 
 
 def test(request, *args, **kwargs):
-    new_tasks = Tasks.objects.filter(is_active=False)
+    new_tasks = Tasks.objects.filter(is_active=False).order_by('id')
     new_todos = Tasks.objects.filter(is_active=True)
     if new_tasks or new_todos:
         return JsonResponse({'pending_tasks': list(new_tasks.values()), 'todos': list(new_todos.values())})
@@ -72,8 +68,17 @@ class TaskToTodoView(View):
     def get(self, request, *args, **kwargs):
         new_tasks = Tasks.objects.filter(is_active=False)
         new_todos = Tasks.objects.filter(is_active=True).order_by('id')
+        todo = list(Todos.objects.all().order_by('id').values())
+        lat_todo_task_id = todo[len(todo)-1]['todo_task_id']
+        instance = Tasks.objects.get(id=lat_todo_task_id)
+        latest_todo_name = instance.task_name
+        latest_todo_added_date = instance.added_date
+
+
         if new_tasks or new_todos:
-            return JsonResponse({'pending_tasks': list(new_tasks.values()), 'todos': list(new_todos.values())})
+            return JsonResponse({'pending_tasks': list(new_tasks.values()), 'todos': list(new_todos.values()),
+                                 'latest_todo': todo[len(todo)-1], 'latest_todo_name': latest_todo_name,
+                                 'latest_todo_added_date': latest_todo_added_date})
 
     def post(self, request, *args, **kwargs):
         todo_id = kwargs.get('id')
@@ -84,6 +89,7 @@ class TaskToTodoView(View):
         task.is_active = True
         task.save()
         new = Todos.objects.get(todo_task=task).id
+        new_todo_note = Todos.objects.get(todo_task=task).todo_note
         color = Todos.objects.get(todo_task=task).todo_status.stat_color
         status_name = Todos.objects.get(todo_task=task).todo_status.stat_name
         print('this is')
@@ -91,7 +97,7 @@ class TaskToTodoView(View):
 
         # Todos.todo_task.add(task)
         print(type(task))
-        return JsonResponse({'new_id': new, 'new_color': color, 'new_status': status_name})
+        return JsonResponse({'new_id': new, 'new_color': color, 'new_status': status_name, 'new_todo_note': new_todo_note})
 
 
 @method_decorator(csrf_exempt, name='dispatch')
@@ -127,6 +133,31 @@ class ChangeTodoStatusView(View):
                     instance.save()
                     break
         return redirect('todo-home')
+
+
+class TaskDetailsView(View):
+    def get(self, request, *args, **kwargs):
+        task_id = kwargs.get('id')
+        task = Tasks.objects.get(id=task_id)
+        return render(request, 'taskdetails.html', {'task': task})
+
+
+class AddTaskNoteView(View):
+    def get(self, request, *args, **kwargs):
+        id = kwargs.get('id')
+        new_task_note = Todos.objects.get(id=id).todo_note
+        return JsonResponse({'id': id, 'new_task_note': new_task_note})
+
+    def post(self, request, *args, **kwargs):
+        id = kwargs.get('id')
+        print(request.POST)
+        print(id)
+        task_note = request.POST.get('task_note')
+        todo = Todos.objects.get(id=id)
+        todo.todo_note = task_note
+        todo.save()
+        return redirect('todo-home')
+
 
 
 

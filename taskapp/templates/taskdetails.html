@@ -5,13 +5,13 @@
       <div class="col-2"></div>
       <div class="col-8" style="margin-top: 100px; margin-bottom: 80px;">
         <div class="card" style="width: 100%;">
-          <img src="https://learndjango.com/static/images/social-default-image.png" class="card-img-top" alt="...">
+          <img src="{{task.task_image.url}}" class="card-img-top" alt="...">
           <div class="card-body">
-            <h5 class="card-title">Learn Django</h5>
-            <p class="card-text">Category</p>
-            <p class="card-text">Description</p>
-            <p class="card-text">Status</p>
-            <p class="card-text">time to do task</p>
+            <h5 class="card-title">{{task.task_name}}</h5>
+            <p class="card-text">{{task.task_category.cat_name}}</p>
+            <p class="card-text">{{task.description}}</p>
+            {% comment %} <p class="card-text">Status</p> {% endcomment %}
+            <p class="card-text">{{task.needed_time}}</p>
             <div class="d-flex justify-content-between" style="width: 100%;">
               <div>
                 <select name="" id="">

@@ -52,6 +52,15 @@ $(document).ready(function() {
     
             for(var key in response.pending_tasks){
               arr_len = response.pending_tasks.length
+              var myDate = response.pending_tasks[key].added_date;
+              var d = new Date( myDate );
+              if ( !!d.valueOf() ) { // Valid date
+                  year = d.getFullYear();
+                  month = d.getMonth();
+                  day = d.getDate();
+              } else { /* Invalid date */ }
+              console.log(year, month, day);
+
               if(key==arr_len-1){
                 // console.log(response.pending_tasks.length);
                 var section = '<ol class="list-group mb-3 v1" id="'+response.pending_tasks[key].id+'">'+
@@ -70,7 +79,7 @@ $(document).ready(function() {
                 '</div>'+
                 '<div class="me-5 d-flex align-items-center">'+
                 '<div class="mt-1">'+
-                '<a href="{%url \'todo-details\'%}">'+
+                '<a href="/todo/'+response.pending_tasks[key].id+'/details/">'+
                 '<i class="fa-solid fa-arrow-up-right-from-square text-muted"></i>'+
                 '</a>'+
                 '</div>'+
@@ -114,6 +123,7 @@ $(document).ready(function() {
           var new_id = response['new_id'];
           var new_color = response['new_color'];
           var new_status = response['new_status']
+          var new_todo_note = response['new_todo_note']
           $("#"+todo_id).hide();
 
           $.ajax({
@@ -122,26 +132,32 @@ $(document).ready(function() {
             success: function(response){
               // console.log(response);
               // $("#display-todo-data").empty();
-              for(var key in response.todos){
-                arr_len = response.todos.length
-                if(key==arr_len-1){
+              // console.log('!!!!!!!!!!!!!!!!!!!!');
+              // console.log(response);
+              // console.log(response.latest_todo.id);
+              // for(var key in response.todos){
+              //   arr_len = response.todos.length
+              //   if(key==arr_len-1){
                   // console.log(response.todos.length);
                   // console.log('++++++++++++++')
                   // console.log(response);
-                  var todo_section = '<ol class="list-group mb-3 v1" id="'+response.todos[key].id+'right">'+
+                  var todo_section = '<ol class="list-group mb-3 v1" id="'+response.latest_todo.id+'right">'+
                   '<li class="list-group-item d-flex justify-content-between align-items-start">'+
                   '<div class="ms-2 me-auto d-flex">'+
                   '<div>'+
-                  '<div class="fw-bold">'+response.todos[key].task_name+
+                  '<div class="fw-bold">'+response.latest_todo_name+
                   '</div>'+
-                  '<p style="font-size: x-small; margin:0;">'+response.todos[key].added_date+
+                  '<p style="font-size: x-small; margin:0;">'+response.latest_todo_added_date+
                   '</p>'+
                   '<div  style="max-width: 100px; display:flex; ">'+
-                  '<div>'+
-                  '<p id="task_note" style="text-overflow: ellipsis;"></p>'+
+                  '<div id="'+new_id+'task_note">'+
+                  new_todo_note+
                   '</div>'+
                   '</div>'+
                   '</div>'+
+
+                  
+                  
                   '<div class="mt-1 ms-4">'+
                   '<a href="{%url \'todo-details\'%}">'+
                   '<i class="fa-solid fa-arrow-up-right-from-square text-muted"></i>'+
@@ -157,11 +173,37 @@ $(document).ready(function() {
                   '</div>'+
                   '<div class="mt-2 d-flex">'+
                   '<div class="me-2">'+
-                  '<input type="submit" value="Note" id="noteBtn1" onclick="taskNotePopup()"'+
-                  'class="btn btn-success"'+
-                  'style="font-size: xx-small;">'+
+                  '<button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal'+new_id+'" style="font-size: xx-small;">'+
+                  'Note'+
+                  '</button>'+
+                  
+                  '<div class="modal fade" id="exampleModal'+new_id+'" tabindex="-1" aria-labelledby="exampleModalLabel'+new_id+'" aria-hidden="true">'+
+                  '<div class="modal-dialog">'+
+                  '<div class="modal-content">'+
+                  '<div class="modal-header">'+
+                  '<h1 class="modal-title fs-5" id="exampleModalLabel'+new_id+'">Create Task Note</h1>'+
+                  '<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>'+
                   '</div>'+
+                  '<form action="/todo/'+new_id+'/add_note/" method="post" class="task_note_form" name="'+new_id+'" enctype="multipart/form-data">'+
+                  
+                  '<div class="modal-body">'+
+                  '<div>'+
+                  '<h2>Add Task Note</h2>'+
+                  '</div>'+
+                  '<div class="mb-3">'+
+                  '<textarea name="note" id="note'+new_id+'" cols="15" rows="5" class="form-control" required></textarea>'+
+                  '</div>'+
+                  '</div>'+
+                  '<div class="modal-footer">'+
+                  '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>'+
+                  '<input type="submit" class="btn btn-primary note_submit_btns" value="Create" data-bs-dismiss="modal" name="'+new_id+'">'+
+                  '</div>'+
+                  '</form>'+
+                  '</div>'+
+                  '</div>'+
+                  '</div>'
 
+                  '</div>'+
                   '<div id="'+new_id+'btn_live_change">'+
                   '<div id="'+new_id+'btn_live">'+
                   '<input type="submit" value="'+new_status+'" id="'+new_id+'" '+
@@ -172,11 +214,13 @@ $(document).ready(function() {
                   '</div>'+
                   '</div>'+
                   '</li>'+
-                  '</ol>'
+                  '</ol>'+
+                  
+
                   // $("#"+new_id+"btn_live").show();
                   $("#display-todo-data").append(todo_section);
-                }
-              }
+              //   }
+              // }
             },
           });
         }
@@ -247,6 +291,46 @@ $(document).ready(function() {
         }
     });
   });
+
+
+  //task note submit form
+  $(document).on('submit', '.task_note_form', function(e){
+    e.preventDefault();
+    id=parseInt($(this).attr("name"));
+    var task_note = $("#note"+id).val();
+    var token =  $('input[name=csrfmiddlewaretoken]').val();
+    fdata = new FormData();
+    fdata.append("csrfmiddlewaretoken", token)
+    fdata.append("task_note", task_note)
+
+
+    $.ajax({
+      type:'POST',
+      url:'/todo/'+id+'/add_note/',
+      processData: false,
+      contentType: false,
+      mimeType: "multipart/form-data",
+      data: fdata,
+      success: function(data){
+        $(".task_note_form")[0].reset();
+        // $(".modal").hide();
+        $.ajax({
+          type: 'GET',
+          url: '/todo/'+id+'/add_note/',
+          success: function(response){
+            $("#"+id+"task_note").empty();
+            $("#"+id+"task_note").append(response.new_task_note);
+            
+          }
+        });
+
+      }
+
+    });
+        
+
+    
+  });
   
 
 });
@@ -285,44 +369,44 @@ $(document).ready(function() {
 
 
 
-  function taskNotePopup() {
-    document.getElementById("popupForm").style.display = "block";
-    // document.getElementById("popupForm").style.position = "fixed";
-    // document.getElementById("popupForm").style.top = "200px";
+  // function taskNotePopup() {
+  //   document.getElementById("popupForm").style.display = "block";
+  //   // document.getElementById("popupForm").style.position = "fixed";
+  //   // document.getElementById("popupForm").style.top = "200px";
 
-    // document.getElementById("popupForm").style.left = "100px";
+  //   // document.getElementById("popupForm").style.left = "100px";
 
-  }
-  function submitfunction() {
-    // document.getElementById("popupForm").style.position = "relative";
-    document.getElementById("popupForm").style.display = "none";
-    var value1 = document.getElementById('note').value
-    console.log(typeof(value1));
-    if (value1.length<30){
-      document.getElementById('task_note').innerText=value1
-    }
-    else{
-      var output = ""
-    for(let char of value1){
-      output += char
-      if (output.length==30){
-        const para = document.createElement("p");
-        para.innerText = output;
-        // document.body.appendChild(para);
-        document.getElementById('task_note').appendChild(para)
-        output = ''
-      }
-    }
-    }
+  // }
+  // function submitfunction() {
+  //   // document.getElementById("popupForm").style.position = "relative";
+  //   document.getElementById("popupForm").style.display = "none";
+  //   var value1 = document.getElementById('note').value
+  //   console.log(typeof(value1));
+  //   if (value1.length<30){
+  //     document.getElementById('task_note').innerText=value1
+  //   }
+  //   else{
+  //     var output = ""
+  //   for(let char of value1){
+  //     output += char
+  //     if (output.length==30){
+  //       const para = document.createElement("p");
+  //       para.innerText = output;
+  //       // document.body.appendChild(para);
+  //       document.getElementById('task_note').appendChild(para)
+  //       output = ''
+  //     }
+  //   }
+  //   }
     
     
 
-  }
-  function closeForm() {
-    // document.getElementById("popupForm").style.position = "relative";
-    document.getElementById("popupForm").style.display = "none";
+  // }
+  // function closeForm() {
+  //   // document.getElementById("popupForm").style.position = "relative";
+  //   document.getElementById("popupForm").style.display = "none";
     
-  }
+  // }
 
   // var section = '<ol class="list-group mb-3 v1" id="{{task.id}}">'+
   // '<li class="list-group-item d-flex justify-content-between align-items-start">'+

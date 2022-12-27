@@ -38,7 +38,7 @@
                               </div>
                               <div class="me-5 d-flex align-items-center">
                                 <div class="mt-1">
-                                    <a href="{%url 'todo-details'%}">
+                                    <a href="{%url 'todo-details' task.id%}">
                                         <i class="fa-solid fa-arrow-up-right-from-square text-muted"></i>
                                     </a>
                                 </div>
@@ -46,6 +46,7 @@
                             </li>
                           </ol>
                         {% endfor %}
+                        
                       {% endif %}
                       <ul  class="list-group mb-3 v1" id="display-data">
 
@@ -82,14 +83,17 @@
 
                                   <!-- here the notes -->
                                   <div  style="max-width: 100px; display:flex; ">
-                                    <div>
-                                      <p id="task_note" style="text-overflow: ellipsis;"></p>
+                                    <div id="{{todo.id}}task_note">
+                                      
+                                        {{todo.todo_note}}
+                                      
+                                      
                                     </div>
                                   </div>
                                 </div>
 
                                 <div class="mt-1 ms-4">
-                                  <a href="{%url 'todo-details'%}">
+                                  <a href="{%url 'todo-details' todo.id%}">
                                     <i class="fa-solid fa-arrow-up-right-from-square text-muted"></i>
                                   </a>
                                 </div>
@@ -103,9 +107,42 @@
                                 </div>
                                 <div class="mt-2 d-flex">
                                   <div class="me-2">
-                                    <input type="submit" value="Note" id="noteBtn1" onclick="taskNotePopup()" 
+                                    <!-- Button trigger modal -->
+                                    <button type="button" class="btn btn-success" data-bs-toggle="modal" 
+                                    data-bs-target="#exampleModal{{todo.id}}" style="font-size: xx-small;">
+                                      Note
+                                    </button>
+
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="exampleModal{{todo.id}}" tabindex="-1" aria-labelledby="exampleModalLabel{{todo.id}}" aria-hidden="true">
+                                      <div class="modal-dialog">
+                                        <div class="modal-content">
+                                          <div class="modal-header">
+                                            <h1 class="modal-title fs-5" id="exampleModalLabel{{todo.id}}">Create Task Note</h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                          </div>
+                                          <form action="{%url 'todo-add-task-note' todo.id%}" method="post" class="task_note_form" name="{{todo.id}}" enctype="multipart/form-data">
+                                            {%csrf_token%}
+                                            <div class="modal-body">
+                                                <div>
+                                                  <h2>Add Task Note</h2>
+                                                </div>
+                                                <div class="mb-3">
+                                                  <textarea name="note" id="note{{todo.id}}" cols="15" rows="5" class="form-control" required></textarea>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                              <input type="submit" class="btn btn-primary note_submit_btns" value="Create" data-bs-dismiss="modal" name="{{todo.id}}">
+                                            </div>
+                                          </form>
+
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <!-- <input type="submit" value="Note" id="noteBtn1" onclick="taskNotePopup()" 
                                       class="btn btn-success"                         
-                                      style="font-size: xx-small;">
+                                      style="font-size: xx-small;"> -->
                                   </div>
                                   <div id="{{todo.id}}btn_live_change">
                                     <div id="{{todo.id}}btn_live">
@@ -125,6 +162,7 @@
                             </li>
                           </ol>
                         {% endfor %}
+
                       {% endif %}
                       <ul  class="list-group mb-3 v1" id="display-todo-data">
 
@@ -161,36 +199,7 @@
           <div class="col-1"></div>
         </div>
 
-        <div class="container d-flex justify-content-center"  id="myid">
 
-          <div class="row" id="popupForm" style="display: none; left: 45%;
-            top: 5%;
-            transform: translate(-5%, -230%);
-            border: 3px solid #999999;
-            z-index: 9; width: 50%;
-          ">
-            
-            <div class="formPopup p-3" style="background-color: #f7f7f7;">
-              <form action="#" onsubmit="submitfunction(); return false">
-                <div>
-                  <h2>Add Task Note</h2>
-                </div>
-                <div class="mb-3">
-                  <textarea name="" id="note" cols="15" rows="5" class="form-control" required></textarea>
-                </div>
-                <div class="">
-                  <input type="submit" name="" id="note_create_btn" value="submit" class="btn btn-sm btn-success">
-                  <!-- <a href="" class="btn" id="note_create_btn" onclick="closeForm(); return false">Create</a> -->
-                  <a href="" class="btn btn-sm btn-danger"  id="note_close_btn" onclick="closeForm(); return false">Close</a>
-                </div>
-                
-              
-              </form>
-                
-            </div>
-          </div>
-        </div>
-          
         
     
     </div>
