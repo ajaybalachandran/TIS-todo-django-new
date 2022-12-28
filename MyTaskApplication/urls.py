@@ -24,7 +24,7 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('todo/listcategory/', catview.list_category_view, name='todo-cat-list'),
-    path('todo/liststatus/', statusview.list_status_view, name='todo-status-list'),
+    path('todo/liststatus/', statusview.ListStatusView.as_view(), name='todo-status-list'),
     path('todo/<int:id>/details/', views.TaskDetailsView.as_view(), name='todo-details'),
     path('todo/category/add/', catview.category_create_view, name='todo-add-new-cat'),
     path('todo/new/', views.CreateNewTaskView.as_view(), name='todo-create-new-task'),

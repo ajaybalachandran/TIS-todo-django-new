@@ -84,8 +84,10 @@
                                   <!-- here the notes -->
                                   <div  style="max-width: 100px; display:flex; ">
                                     <div id="{{todo.id}}task_note">
+                                      {% if todo.todo_note %}
+                                      {{todo.todo_note}}
+                                      {% endif %}
                                       
-                                        {{todo.todo_note}}
                                       
                                       
                                     </div>
@@ -121,7 +123,7 @@
                                             <h1 class="modal-title fs-5" id="exampleModalLabel{{todo.id}}">Create Task Note</h1>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                           </div>
-                                          <form action="{%url 'todo-add-task-note' todo.id%}" method="post" class="task_note_form" name="{{todo.id}}" enctype="multipart/form-data">
+                                          <form action="{%url 'todo-add-task-note' todo.id%}" method="post" id="task_note_form" name="{{todo.id}}" enctype="multipart/form-data">
                                             {%csrf_token%}
                                             <div class="modal-body">
                                                 <div>
@@ -165,7 +167,7 @@
 
                       {% endif %}
                       <ul  class="list-group mb-3 v1" id="display-todo-data">
-
+                        
                       </ul>
                     </div>
                 </div>

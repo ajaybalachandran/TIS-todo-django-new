@@ -142,6 +142,7 @@ class TaskDetailsView(View):
         return render(request, 'taskdetails.html', {'task': task})
 
 
+@method_decorator(csrf_exempt, name='dispatch')
 class AddTaskNoteView(View):
     def get(self, request, *args, **kwargs):
         id = kwargs.get('id')

@@ -124,103 +124,97 @@ $(document).ready(function() {
           var new_color = response['new_color'];
           var new_status = response['new_status']
           var new_todo_note = response['new_todo_note']
+          if (new_todo_note == null){
+            my_note = " "
+          }
+          else{
+            my_note = new_todo_note
+          }
           $("#"+todo_id).hide();
 
           $.ajax({
             type:'GET',
             url:'/task/'+todo_id+'/new_todo/',
+            data:data,
+            dataType:'json',
             success: function(response){
-              // console.log(response);
-              // $("#display-todo-data").empty();
-              // console.log('!!!!!!!!!!!!!!!!!!!!');
-              // console.log(response);
-              // console.log(response.latest_todo.id);
-              // for(var key in response.todos){
-              //   arr_len = response.todos.length
-              //   if(key==arr_len-1){
-                  // console.log(response.todos.length);
-                  // console.log('++++++++++++++')
-                  // console.log(response);
-                  var todo_section = '<ol class="list-group mb-3 v1" id="'+response.latest_todo.id+'right">'+
-                  '<li class="list-group-item d-flex justify-content-between align-items-start">'+
-                  '<div class="ms-2 me-auto d-flex">'+
-                  '<div>'+
-                  '<div class="fw-bold">'+response.latest_todo_name+
-                  '</div>'+
-                  '<p style="font-size: x-small; margin:0;">'+response.latest_todo_added_date+
-                  '</p>'+
-                  '<div  style="max-width: 100px; display:flex; ">'+
-                  '<div id="'+new_id+'task_note">'+
-                  new_todo_note+
-                  '</div>'+
-                  '</div>'+
-                  '</div>'+
+              var todo_section = `<ol class="list-group mb-3 v1" id="${response.latest_todo.id}right">
+              <li class="list-group-item d-flex justify-content-between align-items-start">
+              <div class="ms-2 me-auto d-flex">
+              <div>
+              <div class="fw-bold">${response.latest_todo_name}</div>
+              <p style="font-size: x-small; margin:0;">${response.latest_todo_added_date}</p>
+              <div  style="max-width: 100px; display:flex; ">
+              <div id="${new_id}task_note">
+              
+              ${my_note}
+              </div>
+              </div>
+              </div>
+              <div class="mt-1 ms-4">
+              <a href="{%url 'todo-details' todo.id%}">
+              <i class="fa-solid fa-arrow-up-right-from-square text-muted"></i>
+              </a>
+              </div>
+              </div>
+              <div class="d-flex flex-column">
+              <div style="align-self: flex-end;" id="${new_id}badge_live">
+              <span class="badge  rounded-pill" id="${new_id}badge" style="background-color:${new_color};">&nbsp&nbsp&nbsp
+              </span>
+              </div>
+              <div class="mt-2 d-flex">
+              <div class="me-2">
+              <button type="button" class="btn btn-success" data-bs-toggle="modal"  data-bs-target="#exampleModal${new_id}" style="font-size: xx-small;">
+              Note
+              </button>
+              <div class="modal fade" id="exampleModal${new_id}" tabindex="-1" aria-labelledby="exampleModalLabel${new_id}" aria-hidden="true">
+              <div class="modal-dialog">
+              <div class="modal-content">
+              <div class="modal-header">
+              <h1 class="modal-title fs-5" id="exampleModalLabel${new_id}">Create Task Note</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <form action="/todo/${new_id}/add_note/" method="post" id="task_note_form" name="${new_id}" enctype="multipart/form-data">
 
-                  
-                  
-                  '<div class="mt-1 ms-4">'+
-                  '<a href="{%url \'todo-details\'%}">'+
-                  '<i class="fa-solid fa-arrow-up-right-from-square text-muted"></i>'+
-                  '</a>'+
-                  '</div>'+
-                  '</div>'+
 
-                  '<div class="d-flex flex-column">'+
-                  //here
-                  '<div style="align-self: flex-end;" id="'+new_id+'badge_live">'+
-                  '<span class="badge  rounded-pill" id="'+new_id+'badge" style="background-color:'+new_color+';">&nbsp&nbsp&nbsp'+
-                  '</span>'+
-                  '</div>'+
-                  '<div class="mt-2 d-flex">'+
-                  '<div class="me-2">'+
-                  '<button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal'+new_id+'" style="font-size: xx-small;">'+
-                  'Note'+
-                  '</button>'+
-                  
-                  '<div class="modal fade" id="exampleModal'+new_id+'" tabindex="-1" aria-labelledby="exampleModalLabel'+new_id+'" aria-hidden="true">'+
-                  '<div class="modal-dialog">'+
-                  '<div class="modal-content">'+
-                  '<div class="modal-header">'+
-                  '<h1 class="modal-title fs-5" id="exampleModalLabel'+new_id+'">Create Task Note</h1>'+
-                  '<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>'+
-                  '</div>'+
-                  '<form action="/todo/'+new_id+'/add_note/" method="post" class="task_note_form" name="'+new_id+'" enctype="multipart/form-data">'+
-                  
-                  '<div class="modal-body">'+
-                  '<div>'+
-                  '<h2>Add Task Note</h2>'+
-                  '</div>'+
-                  '<div class="mb-3">'+
-                  '<textarea name="note" id="note'+new_id+'" cols="15" rows="5" class="form-control" required></textarea>'+
-                  '</div>'+
-                  '</div>'+
-                  '<div class="modal-footer">'+
-                  '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>'+
-                  '<input type="submit" class="btn btn-primary note_submit_btns" value="Create" data-bs-dismiss="modal" name="'+new_id+'">'+
-                  '</div>'+
-                  '</form>'+
-                  '</div>'+
-                  '</div>'+
-                  '</div>'
+              <div class="modal-body">
+              <div>
+              <h2>Add Task Note</h2>
+              </div>
+              <div class="mb-3">
+              <textarea name="note" id="note${new_id}" cols="15" rows="5" class="form-control" required></textarea>
+              </div>
+              </div>
+              <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <input type="submit" class="btn btn-primary note_submit_btns" value="Create" data-bs-dismiss="modal" name="${new_id}">
+              </div>
+              </form>
+              </div>
+              </div>
+              </div>
+              </div>
+              <div id="${new_id}btn_live_change">
+              <div id="${new_id}btn_live">
+              <input type="submit" value="${new_status}" id="${new_id}"
+              class="btn btn-primary stat_btns"
+              style="font-size: xx-small;">
+              </div>
+              </div>
+              </div>
+              </div>
+              </li>
+              </ol>`
+              
+              
+              $("#display-todo-data").append(todo_section);
 
-                  '</div>'+
-                  '<div id="'+new_id+'btn_live_change">'+
-                  '<div id="'+new_id+'btn_live">'+
-                  '<input type="submit" value="'+new_status+'" id="'+new_id+'" '+
-                  'class="btn btn-primary stat_btns" '+
-                  'style="font-size: xx-small;">'+
-                  '</div>'+
-                  '</div>'+
-                  '</div>'+
-                  '</div>'+
-                  '</li>'+
-                  '</ol>'+
-                  
+              document.getElementById("task_note_form").reset();
 
-                  // $("#"+new_id+"btn_live").show();
-                  $("#display-todo-data").append(todo_section);
-              //   }
-              // }
+              
+            
+
+              
             },
           });
         }
@@ -294,7 +288,7 @@ $(document).ready(function() {
 
 
   //task note submit form
-  $(document).on('submit', '.task_note_form', function(e){
+  $(document).on('submit', '#task_note_form', function(e){
     e.preventDefault();
     id=parseInt($(this).attr("name"));
     var task_note = $("#note"+id).val();
@@ -312,8 +306,9 @@ $(document).ready(function() {
       mimeType: "multipart/form-data",
       data: fdata,
       success: function(data){
-        $(".task_note_form")[0].reset();
+        $("#task_note_form")[0].reset();
         // $(".modal").hide();
+        document.getElementById("task_note_form").reset();
         $.ajax({
           type: 'GET',
           url: '/todo/'+id+'/add_note/',
