@@ -189,9 +189,10 @@ class TodoDetailsView(View):
     def post(self, request, *args, **kwargs):
         id = kwargs.get('id')
         todo = Todos.objects.get(id=id)
+        print(todo)
         print(request.POST)
         new_stat_name = request.POST.get('status_change')
-        new_stat = TaskStatus.objects.get(task_name = new_stat_name).id
+        new_stat = TaskStatus.objects.get(stat_name=new_stat_name)
         todo.todo_status = new_stat
         todo.save()
         return redirect('todo-todo-details', id)
