@@ -20,11 +20,12 @@
       <div class="mb-3">
         <select name="cat" id="task_cat" required>
           <option selected disabled hidden value= 'none'>Select Category</option>
-          <option value="Study">Study</option>
-          <option value="Office">Office</option>
-          <option value="Travelling">Travelling</option>
-          <option value="Hobbies">Hobbies</option>
-          <option value="Entertainment">Entertainment</option>
+          {% if cat_list %}
+            {% for cat_name in cat_list %}
+            <option value="Study">{{cat_name}}</option>
+            {% endfor %}
+          {% endif %}
+
         </select>
       </div>
       <div class="mb-3">

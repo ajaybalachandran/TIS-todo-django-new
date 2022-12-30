@@ -2,7 +2,8 @@
   <div class="row">
     <div class="col-2"></div>
     <div class="col-8">
-      <form action="" method="">
+      <form action="{%url 'todo-status-list'%}" method="post" id="create_status_form">
+        {%csrf_token%}
         <div class="card">
           <div class="card-body">
             <div class="d-flex justify-content-between">
@@ -15,11 +16,12 @@
             </div>
             <div>
               <div class="mb-2">
-                <input type="text" placeholder="Status Name" required>
+                <input name="stat_name" type="text" placeholder="Status Name" required id="status_name">
               </div>
-              <div >
-                <span id="id_selected_color">
-                  None
+
+              <div id="id_color_n_value">
+                <span id="id_selected_color" value ="h1">
+                  No color selected
                 </span>
                 <span class="badge  rounded-pill ms-2" id="clr_badge" 
                   style="background-color: #fff;">&nbsp&nbsp&nbsp
@@ -29,7 +31,20 @@
                 <div class="p-0">
                   <h6>Choose A Color</h6>
                 </div>
-                <div class="col-2 d-flex justify-content-center align-items-center" id="color11">
+                
+
+                <select name="selected_color" id="color_dropdown">
+                  <!-- <option value="none" disabled>Select</option> -->
+                  {% if available_colors %}
+                  {% for color in available_colors %}
+                    <option value="{{color}}">{{color}}</option>
+
+                  {% endfor %}
+                  {% endif %} 
+                </select>
+
+
+                <!-- <div class="col-2 d-flex justify-content-center align-items-center" id="color11">
                   <div>
                     <a href="" class="btn" onclick="return false">Grey</a>
                   </div>
@@ -58,8 +73,13 @@
                   <div>
                     <a href="" class="btn" onclick="return false">Aqua</a>
                   </div>
-                </div>
+                </div> -->
               </div>
+              <div id="message" style="margin-bottom: 16px;">
+
+              </div>
+
+
               <div>
                 <div>
                   <input type="submit" class="btn btn-sm btn-primary" value="Create">

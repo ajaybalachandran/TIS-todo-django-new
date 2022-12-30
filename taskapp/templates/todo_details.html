@@ -1,0 +1,49 @@
+{%extends 'base.html'%}
+{%block body_block%}
+  <div class="container">
+    <div class="row" >
+      <div class="col-2"></div>
+      <div class="col-8" style="margin-top: 100px; margin-bottom: 80px;">
+        <div class="card" style="width: 100%;">
+          <img src="{{todo_detail.todo_task.task_image.url}}" class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 class="card-title">{{todo_detail.todo_task.task_name}}</h5>
+            <p class="card-text">{{todo_detail.todo_task.task_category.cat_name}}</p>
+            <p class="card-text">{{todo_detail.todo_task.description}}</p>
+            <p class="card-text">{{todo_detail.todo_task.needed_time}}</p>
+            <div class="border p-1 mb-1">
+                <h6>Task Note &#128394;</h6>
+                <p class="card-text">{{todo_detail.todo_note}}</p>
+            </div>
+            
+            <form action="{%url 'todo-todo-details' todo_detail.id%}" method="post">
+                {%csrf_token%}
+
+                <div class="d-flex justify-content-between" style="width: 100%;">
+                        <div>
+                            <select name="status_change" id="">
+                                <option value="">Change Status</option>
+                                    {% if status_list %}
+                                        {% for status in status_list %}
+                                            <option value="{{status}}">{{status}}</option>
+                                        {% endfor %}
+                                    {% endif %}
+                            </select>
+            
+                        </div>
+                        <div>
+                            <input type="submit" class="btn btn-sm btn-primary">
+                        </div>
+
+                </div>
+            </form>
+
+            
+
+          </div>
+        </div>
+      </div>
+      <div class="col-2"></div>
+    </div>
+  </div>
+{%endblock%}

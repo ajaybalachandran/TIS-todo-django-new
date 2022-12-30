@@ -23,10 +23,10 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('todo/listcategory/', catview.list_category_view, name='todo-cat-list'),
+    path('todo/listcategory/', catview.ListCategoryView.as_view(), name='todo-cat-list'),
     path('todo/liststatus/', statusview.ListStatusView.as_view(), name='todo-status-list'),
-    path('todo/<int:id>/details/', views.TaskDetailsView.as_view(), name='todo-details'),
-    path('todo/category/add/', catview.category_create_view, name='todo-add-new-cat'),
+    path('task/<int:id>/details/', views.TaskDetailsView.as_view(), name='todo-details'),
+    path('todo/category/add/', catview.CategoryCreateView.as_view(), name='todo-add-new-cat'),
     path('todo/new/', views.CreateNewTaskView.as_view(), name='todo-create-new-task'),
     path('todo/home/', views.NewHomeView.as_view(), name='todo-home'),
     path('todo/home/test/', views.test, name='todo-test'),
@@ -34,7 +34,10 @@ urlpatterns = [
     path('task/<int:id>/new_todo/', views.TaskToTodoView.as_view(), name='task-to-todo'),
     path('todo/<int:id>/', views.ChangeTodoStatusView.as_view(), name='todo-change-status'),
     path('todo/<int:id>/add_note/', views.AddTaskNoteView.as_view(), name='todo-add-task-note'),
+    path('todo/<int:id>/details/', views.TodoDetailsView.as_view(), name="todo-todo-details"),
+    path('accounts/login/', views.LoginView.as_view(), name='todo-login'),
+    path('logout/', views.signout_view, name='todo-logout')
 
 ]
 if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

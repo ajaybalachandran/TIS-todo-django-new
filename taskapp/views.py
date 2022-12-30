@@ -1,7 +1,9 @@
 import json
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render, redirect
 from django.utils.decorators import method_decorator
-from django.views.generic import View
+from django.views.generic import View, FormView
 from taskapp.models import Tasks
 from django.views.decorators.csrf import csrf_exempt
 from django.core.files.storage import FileSystemStorage
@@ -9,12 +11,18 @@ from categoryapp.models import Category
 from taskstatusapp.models import TaskStatus
 from taskapp.models import Todos
 from django.http import JsonResponse
+from taskapp.forms import LoginForm
 # Create your views here.
+decs = [login_required, csrf_exempt]
 
-
+@method_decorator(login_required, name='dispatch')
 class CreateNewTaskView(View):
     def get(self, request, *args, **kwargs):
-        return render(request, 'newtask.html')
+        category_list = []
+        qs = Category.objects.all().order_by('id')
+        for i in qs:
+            category_list.append(i.cat_name)
+        return render(request, 'newtask.html', {'cat_list': category_list})
 
     def post(self, request, *args, **kwargs):
         # print(request.POST)
@@ -38,8 +46,13 @@ class CreateNewTaskView(View):
         return redirect('todo-home')
 
 
+@method_decorator(login_required, name='dispatch')
 class NewHomeView(CreateNewTaskView):
     def get(self, request, *args, **kwargs):
+        category_list = []
+        qs = Category.objects.all().order_by('id')
+        for i in qs:
+            category_list.append(i.cat_name)
         # pending_id = TaskStatus.objects.get(stat_name='pending')
         new_tasks = Tasks.objects.filter(is_active=False).order_by('id').values()
         # new_todos = Tasks.objects.filter(is_active=True)
@@ -49,12 +62,13 @@ class NewHomeView(CreateNewTaskView):
         # print(new_todos2)
 
         if new_tasks or new_todos:
-            return render(request, 'home.html', {'pending_tasks': new_tasks, 'todos': new_todos})
+            return render(request, 'home.html', {'pending_tasks': new_tasks, 'todos': new_todos, 'cat_list': category_list})
             # return JsonResponse({'pending_tasks': list(new_tasks.values()), 'todos': list(new_todos.values())})
         else:
             return render(request, 'home.html')
 
 
+@method_decorator(login_required, name='dispatch')
 def test(request, *args, **kwargs):
     new_tasks = Tasks.objects.filter(is_active=False).order_by('id')
     new_todos = Tasks.objects.filter(is_active=True)
@@ -63,7 +77,7 @@ def test(request, *args, **kwargs):
 
 
 # while checking the checkbox the task in the task section it will jump to right section
-@method_decorator(csrf_exempt, name='dispatch')
+@method_decorator(decs, name='dispatch')
 class TaskToTodoView(View):
     def get(self, request, *args, **kwargs):
         new_tasks = Tasks.objects.filter(is_active=False)
@@ -100,7 +114,7 @@ class TaskToTodoView(View):
         return JsonResponse({'new_id': new, 'new_color': color, 'new_status': status_name, 'new_todo_note': new_todo_note})
 
 
-@method_decorator(csrf_exempt, name='dispatch')
+@method_decorator(decs, name='dispatch')
 class ChangeTodoStatusView(View):
 
     def get(self, request, *args, **kwargs):
@@ -135,6 +149,7 @@ class ChangeTodoStatusView(View):
         return redirect('todo-home')
 
 
+@method_decorator(login_required, name='dispatch')
 class TaskDetailsView(View):
     def get(self, request, *args, **kwargs):
         task_id = kwargs.get('id')
@@ -142,7 +157,7 @@ class TaskDetailsView(View):
         return render(request, 'taskdetails.html', {'task': task})
 
 
-@method_decorator(csrf_exempt, name='dispatch')
+@method_decorator(decs, name='dispatch')
 class AddTaskNoteView(View):
     def get(self, request, *args, **kwargs):
         id = kwargs.get('id')
@@ -160,6 +175,49 @@ class AddTaskNoteView(View):
         return redirect('todo-home')
 
 
+@method_decorator(login_required, name='dispatch')
+class TodoDetailsView(View):
+    def get(self, request, *args, **kwargs):
+        id = kwargs.get('id')
+        status_list = []
+        todo = Todos.objects.get(id=id)
+        for i in TaskStatus.objects.all().order_by("id"):
+            status_list.append(i.stat_name)
+
+        return render(request, 'todo_details.html', {'todo_detail': todo, 'status_list': status_list})
+
+    def post(self, request, *args, **kwargs):
+        id = kwargs.get('id')
+        todo = Todos.objects.get(id=id)
+        print(request.POST)
+        new_stat_name = request.POST.get('status_change')
+        new_stat = TaskStatus.objects.get(task_name = new_stat_name).id
+        todo.todo_status = new_stat
+        todo.save()
+        return redirect('todo-todo-details', id)
+
+
+class LoginView(View):
+    def get(self, request, *args, **kwargs):
+        form = LoginForm()
+        return render(request, 'login.html', {'form': form})
+    def post(self, request, *args, **kwargs):
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            usr = authenticate(request, username=username, password=password)
+            if usr:
+                login(request, usr)
+                return redirect('todo-home')
+            else:
+                return render(request, 'login.html', {'form': form})
+
+
+@login_required
+def signout_view(request, *args, **kwargs):
+    logout(request)
+    return redirect('todo-login')
 
 
 
