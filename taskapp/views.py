@@ -68,7 +68,7 @@ class NewHomeView(CreateNewTaskView):
             return render(request, 'home.html')
 
 
-@method_decorator(login_required, name='dispatch')
+@login_required
 def test(request, *args, **kwargs):
     new_tasks = Tasks.objects.filter(is_active=False).order_by('id')
     new_todos = Tasks.objects.filter(is_active=True)
@@ -177,25 +177,40 @@ class AddTaskNoteView(View):
 
 @method_decorator(login_required, name='dispatch')
 class TodoDetailsView(View):
-    def get(self, request, *args, **kwargs):
-        id = kwargs.get('id')
+    def get(self, request,  slug):
+        # print(slug)
+        # id = kwargs.get('id')
         status_list = []
-        todo = Todos.objects.get(id=id)
+        todo = Todos.objects.get(slug=slug)
         for i in TaskStatus.objects.all().order_by("id"):
             status_list.append(i.stat_name)
 
         return render(request, 'todo_details.html', {'todo_detail': todo, 'status_list': status_list})
 
-    def post(self, request, *args, **kwargs):
-        id = kwargs.get('id')
-        todo = Todos.objects.get(id=id)
-        print(todo)
-        print(request.POST)
-        new_stat_name = request.POST.get('status_change')
-        new_stat = TaskStatus.objects.get(stat_name=new_stat_name)
-        todo.todo_status = new_stat
-        todo.save()
-        return redirect('todo-todo-details', id)
+    # def post(self, request, *args, slug):
+    #     # id = kwargs.get('id')
+    #     # print(type(slug))
+    #     todo = Todos.objects.get(slug=slug)
+    #     print(todo)
+    #     print(request.POST)
+    #     new_stat_name = request.POST.get('status_change')
+    #     new_stat = TaskStatus.objects.get(stat_name=new_stat_name)
+    #     todo.todo_status = new_stat
+    #     todo.save()
+    #     return redirect('todo-todo-details', todo.slug)
+
+
+def todo_stat_change_view(request, *args, slug):
+    todo = Todos.objects.get(slug=slug)
+    print(todo)
+    print(request.POST)
+    new_stat_name = request.POST.get('status_change')
+    new_stat = TaskStatus.objects.get(stat_name=new_stat_name)
+    todo.todo_status = new_stat
+    todo.save()
+    return redirect('todo-todo-details', todo.slug)
+
+
 
 
 class LoginView(View):

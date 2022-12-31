@@ -18,7 +18,7 @@
                 <p class="card-text">{{todo_detail.todo_note}}</p>
             </div>
             
-            <form action="{%url 'todo-todo-details' todo_detail.id%}" method="post">
+            <form action="{%url 'todo-todo-update' todo_detail.slug%}" method="post">
                 {%csrf_token%}
 
                 <div class="d-flex justify-content-between" style="width: 100%;">

@@ -34,7 +34,9 @@ urlpatterns = [
     path('task/<int:id>/new_todo/', views.TaskToTodoView.as_view(), name='task-to-todo'),
     path('todo/<int:id>/', views.ChangeTodoStatusView.as_view(), name='todo-change-status'),
     path('todo/<int:id>/add_note/', views.AddTaskNoteView.as_view(), name='todo-add-task-note'),
-    path('todo/<int:id>/details/', views.TodoDetailsView.as_view(), name="todo-todo-details"),
+    path('todo/<str:slug>/details/', views.TodoDetailsView.as_view(), name="todo-todo-details"),
+    path('todo/<str:slug>/update/', views.todo_stat_change_view, name="todo-todo-update"),
+
     path('accounts/login/', views.LoginView.as_view(), name='todo-login'),
     path('logout/', views.signout_view, name='todo-logout')
 
