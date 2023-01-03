@@ -12,10 +12,13 @@ from taskstatusapp.models import TaskStatus
 from taskapp.models import Todos
 from django.http import JsonResponse
 from taskapp.forms import LoginForm
+from django.conf import settings
+from django.core.mail import send_mail
 # Create your views here.
 decs = [login_required, csrf_exempt]
 
-@method_decorator(login_required, name='dispatch')
+
+@method_decorator(decs, name='dispatch')
 class CreateNewTaskView(View):
     def get(self, request, *args, **kwargs):
         category_list = []
@@ -25,24 +28,24 @@ class CreateNewTaskView(View):
         return render(request, 'newtask.html', {'cat_list': category_list})
 
     def post(self, request, *args, **kwargs):
-        # print(request.POST)
+        print(request.POST)
 
         task_name = request.POST.get('task_name')
         description = request.POST.get('description')
         cats = request.POST.get('cats')
         task_category = Category.objects.get(cat_name=cats)
         task_image = request.FILES.get('file')
-        # task_status = TaskStatus.objects.get(stat_color='no_color')
         needed_time = request.POST.get('needed_time')
-        # print(task_name, description, task_category, task_image,  needed_time)
-        # fss = FileSystemStorage()
-        # filename = fss.save(task_image.name, task_image)
-        # url = fss.url(filename)
-        # print(task_image.name)
-
+        print(task_name, description, task_category, task_image,  needed_time)
         Tasks.objects.create(task_name=task_name, description=description,
                              task_category=task_category, task_image=task_image,
                              needed_time=needed_time)
+        print(request.user.email)
+        subject = 'Task application new task'
+        message = f'A new task: {task_name}, is created by {request.user} in {task_category} category.'
+        email_from = settings.EMAIL_HOST_USER
+        recipient_list = ['ajaybalachandran01@gmail.com', ]
+        send_mail(subject, message, email_from, recipient_list)
         return redirect('todo-home')
 
 
@@ -53,17 +56,11 @@ class NewHomeView(CreateNewTaskView):
         qs = Category.objects.all().order_by('id')
         for i in qs:
             category_list.append(i.cat_name)
-        # pending_id = TaskStatus.objects.get(stat_name='pending')
         new_tasks = Tasks.objects.filter(is_active=False).order_by('id').values()
-        # new_todos = Tasks.objects.filter(is_active=True)
         new_todos = Todos.objects.all().order_by('id')
-        # print(new_todos)
-        # new_todos2 = Todos.objects.all().order_by('id')
-        # print(new_todos2)
 
         if new_tasks or new_todos:
             return render(request, 'home.html', {'pending_tasks': new_tasks, 'todos': new_todos, 'cat_list': category_list})
-            # return JsonResponse({'pending_tasks': list(new_tasks.values()), 'todos': list(new_todos.values())})
         else:
             return render(request, 'home.html')
 
@@ -87,8 +84,6 @@ class TaskToTodoView(View):
         instance = Tasks.objects.get(id=lat_todo_task_id)
         latest_todo_name = instance.task_name
         latest_todo_added_date = instance.added_date
-
-
         if new_tasks or new_todos:
             return JsonResponse({'pending_tasks': list(new_tasks.values()), 'todos': list(new_todos.values()),
                                  'latest_todo': todo[len(todo)-1], 'latest_todo_name': latest_todo_name,
@@ -96,7 +91,6 @@ class TaskToTodoView(View):
 
     def post(self, request, *args, **kwargs):
         todo_id = kwargs.get('id')
-        # print(todo_id)
         task = Tasks.objects.get(id=todo_id)
         new_stat = TaskStatus.objects.get(stat_name='New')
         Todos.objects.create(todo_task=task, todo_status=new_stat)
@@ -106,11 +100,6 @@ class TaskToTodoView(View):
         new_todo_note = Todos.objects.get(todo_task=task).todo_note
         color = Todos.objects.get(todo_task=task).todo_status.stat_color
         status_name = Todos.objects.get(todo_task=task).todo_status.stat_name
-        print('this is')
-        print(color)
-
-        # Todos.todo_task.add(task)
-        print(type(task))
         return JsonResponse({'new_id': new, 'new_color': color, 'new_status': status_name, 'new_todo_note': new_todo_note})
 
 
@@ -118,7 +107,6 @@ class TaskToTodoView(View):
 class ChangeTodoStatusView(View):
 
     def get(self, request, *args, **kwargs):
-        print('helooooooooo')
         todo_id = kwargs.get('id')
         changed_todo = Todos.objects.get(id=todo_id)
 
@@ -187,36 +175,24 @@ class TodoDetailsView(View):
 
         return render(request, 'todo_details.html', {'todo_detail': todo, 'status_list': status_list})
 
-    # def post(self, request, *args, slug):
-    #     # id = kwargs.get('id')
-    #     # print(type(slug))
-    #     todo = Todos.objects.get(slug=slug)
-    #     print(todo)
-    #     print(request.POST)
-    #     new_stat_name = request.POST.get('status_change')
-    #     new_stat = TaskStatus.objects.get(stat_name=new_stat_name)
-    #     todo.todo_status = new_stat
-    #     todo.save()
-    #     return redirect('todo-todo-details', todo.slug)
-
-
 def todo_stat_change_view(request, *args, slug):
     todo = Todos.objects.get(slug=slug)
     print(todo)
     print(request.POST)
     new_stat_name = request.POST.get('status_change')
+    print(new_stat_name)
     new_stat = TaskStatus.objects.get(stat_name=new_stat_name)
+    print(new_stat)
     todo.todo_status = new_stat
     todo.save()
     return redirect('todo-todo-details', todo.slug)
-
-
 
 
 class LoginView(View):
     def get(self, request, *args, **kwargs):
         form = LoginForm()
         return render(request, 'login.html', {'form': form})
+
     def post(self, request, *args, **kwargs):
         form = LoginForm(request.POST)
         if form.is_valid():

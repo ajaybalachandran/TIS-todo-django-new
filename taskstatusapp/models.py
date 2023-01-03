@@ -14,7 +14,7 @@ class TaskStatus(models.Model):
                      ('teal', 'teal'),
                      ('black', 'black'),
                      ('aqua', 'aqua'))
-    stat_color = models.CharField(max_length=20, choices=color_choices, unique=True)
+    stat_color = models.CharField(max_length=20, choices=color_choices)
 
     def __str__(self):
         return self.stat_name

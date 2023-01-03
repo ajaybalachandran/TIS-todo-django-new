@@ -17,6 +17,7 @@ $(document).ready(function() {
 
     var needed_time = $("#task_avail_time").val();
     var token =  $('input[name=csrfmiddlewaretoken]').val();
+    console.log('hi')
     
     var data = new FormData();
     data.append("file", $("input[id^='task_image']")[0].files[0])
@@ -25,7 +26,7 @@ $(document).ready(function() {
     data.append("description", description)
     data.append("cats", cats)
     data.append("needed_time", needed_time)
-    // console.log(task_name, description, cats, needed_time, token);
+     console.log(task_name, description, cats, needed_time, token);
 
 
     $.ajax({
@@ -328,154 +329,8 @@ $(document).ready(function() {
   });
   
 
+
 });
 //jquery ends
-
-
-//functions
-
-
-// function btnchange() 
-// {
-    
-//     var elem = document.getElementById("myButton1");
-//     var badge = document.getElementById("badge1");
-//     if (elem.value=="New"){
-//       elem.value = "Partially completed";
-//       badge.style.background = "yellow";
-//     } 
-//     else if (elem.value=="Partially completed"){
-//       elem.value = "Completed";
-//       badge.style.background = "green";
-
-//     } 
-//     else if (elem.value=="Completed"){
-//       elem.value = "Canceled";
-//       badge.style.background = "red";
-
-//     } 
-//     else{
-//       elem.value = "New";
-//       badge.style.background = "#0d6efd";
-
-//     } 
-// }
-
-
-
-
-  // function taskNotePopup() {
-  //   document.getElementById("popupForm").style.display = "block";
-  //   // document.getElementById("popupForm").style.position = "fixed";
-  //   // document.getElementById("popupForm").style.top = "200px";
-
-  //   // document.getElementById("popupForm").style.left = "100px";
-
-  // }
-  // function submitfunction() {
-  //   // document.getElementById("popupForm").style.position = "relative";
-  //   document.getElementById("popupForm").style.display = "none";
-  //   var value1 = document.getElementById('note').value
-  //   console.log(typeof(value1));
-  //   if (value1.length<30){
-  //     document.getElementById('task_note').innerText=value1
-  //   }
-  //   else{
-  //     var output = ""
-  //   for(let char of value1){
-  //     output += char
-  //     if (output.length==30){
-  //       const para = document.createElement("p");
-  //       para.innerText = output;
-  //       // document.body.appendChild(para);
-  //       document.getElementById('task_note').appendChild(para)
-  //       output = ''
-  //     }
-  //   }
-  //   }
-    
-    
-
-  // }
-  // function closeForm() {
-  //   // document.getElementById("popupForm").style.position = "relative";
-  //   document.getElementById("popupForm").style.display = "none";
-    
-  // }
-
-  // var section = '<ol class="list-group mb-3 v1" id="{{task.id}}">'+
-  // '<li class="list-group-item d-flex justify-content-between align-items-start">'+
-  // '<div class="mt-1">'+
-  // '<div>'+
-  // '<a href="{%url \'task-to-todo\' task.id%}">'+
-  // '<input type="checkbox" value="v1" id="ididid">'+
-  // '</a>'+
-  // '</div>'+
-  // '</div>'+
-  // '<div class="ms-2 me-auto">'+
-  // '<div class="fw-bold" id="b_task_name">'+response.pending_tasks[key].task_name+
-  // '</div>'+
-  // '<p style="font-size: x-small; margin:0;">'+response.pending_tasks[key].added_date+
-  // '</p>'+
-  // '</div>'+
-  // '<div class="me-5 d-flex align-items-center">'+
-  // '<div class="mt-1">'+
-  // '<a href="{%url \'todo-details\'%}">'+
-  // '<i class="fa-solid fa-arrow-up-right-from-square text-muted"></i>'+
-  // '</a>'+
-  // '</div>'+
-  // '</div>'+
-  // '</li>'+
-  // '</ol>'
-  // $("#display-data").append(section);
-
-
-  //form submission without page refresh (file upload not working)
-
-  // $(document).on('submit', '#create_new_task_form', function(e){
-  //   console.log('sub');
-  //   e.preventDefault();
-  //   $.ajax({
-  //     type:'POST',
-  //     url: "/todo/home/",
-  //     data:{
-  //       task_name : $('#task_name').val(),
-  //       description : $('#task_desc').val(),
-  //       cats : $('#task_cat').val(),
-  //       task_image : $('#task_image').val(),
-  //       needed_time : $('#task_avail_time').val(),
-  //       csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
-  //     },
-  //     success: function(){
-
-  //     }
-    
-
-  //   });
-  //   $("#create_new_task_form")[0].reset();
-  // });
-  
-
-  // $.ajax({
-  //   type: "GET",
-  //   url: "/todo/livedata/",
-  //   success: function(response){
-  //     console.log(response);
-  //     const stat_names_arr = []
-  //     for(var key in response.stat_names){
-  //       stat_names_arr.push(response.stat_names[key])
-  //     }
-  //     len = stat_names_arr.length
-  //     for(let i=0; i<len;i++){
-  //       if(i == len-1){
-  //         if(value==stat_names_arr[i]){
-  //           $(this).attr("value",stat_names_arr[i+1]);
-  //           // $("#"+id+"badge").css('background', 'yellow');
-  //         }
-  //       }
-  //     }
-  //   }
-  // });
-
 
 

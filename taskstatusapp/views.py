@@ -1,5 +1,7 @@
+import json
+
 from django.shortcuts import render,redirect
-from django.views.generic import View
+from django.views.generic import View, ListView
 from taskstatusapp.models import TaskStatus
 
 # Create your views here.
@@ -16,8 +18,9 @@ class ListStatusView(View):
             created_colors.append(stat.stat_color)
 
         available = list(set(all_colors).symmetric_difference(set(created_colors)))
+        qs_json = json.dumps(list(TaskStatus.objects.values()))
 
-        return render(request, 'list_status.html', {'task_status': qs, 'available_colors': available})
+        return render(request, 'list_status.html', {'task_status': qs, 'available_colors': available, 'qs_json': qs_json})
 
     def post(self, request, *args, **kwargs):
         print(request.POST)
